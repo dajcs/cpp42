@@ -8,7 +8,7 @@
 			"name": "(gdb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${fileDirname}/tests",
+			"program": "${fileDirname}/moarBrainz",
 			"args": [],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
