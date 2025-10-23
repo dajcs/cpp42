@@ -15,13 +15,36 @@
 
 int		main( void ) {
 
+	// defining a collection of Account objects with std::vector dynamic array
 	typedef std::vector<Account::t>							  accounts_t;
+	// defining a collection of Account objects with std::vector dynamic array
 	typedef std::vector<int>								  ints_t;
+
+	// defining a "pair" - similar to a C struct with .first and .second members
+	/*
+		struct acc_int_s
+		{
+			first	accounts_t::iterator;
+			second	ints_t::iterator;
+		}	acc_int_t;
+	*/
 	typedef std::pair<accounts_t::iterator, ints_t::iterator> acc_int_t;
 
 	int	const				amounts[]	= { 42, 54, 957, 432, 1234, 0, 754, 16576 };
 	size_t const			amounts_size( sizeof(amounts) / sizeof(int) );
+
+	/*
+	accounts_t is the vector container for the Accounts
+	1.) the vector is going to be created using its "range constructor"
+		accounts(start address, end address) <- this is the constructor
+		which will populate the [start address, end address) with account objects
+		note the `start address` inclusive, `end address` exclusive
+	2.) the vectors constructor walks throught the input range
+												amounts -> amounts + amounts_size
+		takes the int values one by one and constructs the account objects using these
+	*/
 	accounts_t				accounts( amounts, amounts + amounts_size );
+
 	accounts_t::iterator	acc_begin	= accounts.begin();
 	accounts_t::iterator	acc_end		= accounts.end();
 
@@ -70,3 +93,19 @@ int		main( void ) {
 // -*- mode: c++-mode;                                                       -*-
 // -*- fill-column: 75; comment-column: 75;                                  -*-
 // ************************************************************************** //
+
+
+/*
+
+diff <(cut -d' ' -f 2- 19920104_091532.log) <(cut -d' ' -f 2- file2.txt)
+
+Explanation of the cut approach:
+
+	cut -d' ' -f 2-
+		Uses space as delimiter (-d' ')
+		and selects from field 2 to the end (-f2-)
+	<(...) - Process substitution
+		and treats the output as a file
+	diff - Compares the two processed outputs
+
+*/
