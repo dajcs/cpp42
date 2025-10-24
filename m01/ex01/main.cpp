@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 22:34:04 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/24 00:01:44 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/24 19:39:01 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 int main(void)
 {
 	const int hordeSize = 5; // use a constant for the size for clarity
-	std::cout << "--- Creating a horde of " << hordeSize << " zombies! ---" << std::endl;
+	std::cout << "\n--- Constructing a horde of " << hordeSize << " zombies in a single allocation! ---\n" << std::endl;
 
-	// Create the horde of zombies on the heap
+	// Create the horde of zombies (on the heap)
 	Zombie* myHorde = zombieHorde(hordeSize, "Hordeling");
+
+	std::cout << "\n--- The Hordeling company presents for duty. ---\n" << std::endl;
 
 	// Test the horde by making each zombie announce itself
 	for (int i = 0; i < hordeSize; i++)
@@ -27,7 +29,7 @@ int main(void)
 		myHorde[i].announce();
 	}
 
-	std::cout << "--- The horde has served its purpose. Time for cleanup. ---" << std::endl;
+	std::cout << "\n--- The horde has served its purpose. Calling the Destructor. ---\n" << std::endl;
 
 	/* C++ `delete[]`
 		`myHorde` points to an ARRAY allocated with new[], we MUST use `delete[]` to deallocate it.

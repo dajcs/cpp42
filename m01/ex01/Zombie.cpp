@@ -6,16 +6,21 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 20:05:17 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/23 23:40:34 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/24 17:30:02 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sstream>   // for std::stringstream
 #include <iostream>  // std::cout
 #include "Zombie.hpp" // Zombie class definition
 
-// Default (void) Constructor
-Zombie::Zombie(void): _name("")
+// Default (void) Constructor: gives a unique name from the memory address
+Zombie::Zombie(void)
 {
+	std::stringstream ss;
+	ss << this;
+	this->_name = ss.str();
+	std::cout << "Created a default pointer zombie at: " << this->_name << std::endl;
 	return;
 }
 
@@ -38,4 +43,10 @@ Zombie::~Zombie(void)
 void Zombie::announce(void)
 {
 	std::cout << this->_name << ": Moar brainz!" << std::endl;
+}
+
+// Implementation of the setter method
+void Zombie::setName(std::string name)
+{
+	this->_name = name;
 }

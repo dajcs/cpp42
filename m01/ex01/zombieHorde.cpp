@@ -6,10 +6,11 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:26:34 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/23 23:51:39 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/24 19:39:12 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sstream>
 #include "Zombie.hpp"
 
 /* C++ new[]
@@ -21,14 +22,16 @@
 */
 Zombie* zombieHorde(int N, std::string name)
 {
-	// allocate N zombies in a single block
+	// allocate N zombies on the heap in a single allocation
 	// the `horde` pointer points to the first zombie (index 0)
 	Zombie* horde = new Zombie[N];
 
-	// Loop through the array and initialize each zombie.
+	// Loop through the array and rename each zombie.
 	for (int i = 0; i < N; i++)
 	{
-		horde[i] = Zombie(name);
+		std::ostringstream oss;			// oss <- output string stream
+		oss << name << "[" << i << "]";	// can mix strings, ints, etc.
+		horde[i].setName(oss.str());	// but in the end we convert it to string with oss.str()
 	}
 
 	return horde;

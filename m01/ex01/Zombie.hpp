@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 19:53:55 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/23 23:35:11 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/24 16:29:08 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ class Zombie
 		// A regular member function that can be called on any Zombie object
 		void announce(void);
 
+		// A "setter" to set the name after creation
+		void setName(std::string name);
 };
 
 // Function prototypes
