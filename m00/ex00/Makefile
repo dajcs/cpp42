@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/21 12:50:39 by anemet            #+#    #+#              #
-#    Updated: 2025/10/21 14:28:22 by anemet           ###   ########.fr        #
+#    Updated: 2025/10/24 12:41:05 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,9 @@ clean:
 # Rule to remove everything "clean" does, plus the final executable
 fclean: clean
 	rm -f $(NAME)
+
+# Re target to rebuild everything
+re: fclean all
 
 # Phony
 .PHONY: all clean fclean re
