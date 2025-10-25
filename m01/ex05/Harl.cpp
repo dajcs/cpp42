@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:44:17 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/25 16:09:10 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/25 17:15:59 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,19 @@ void Harl::debug(void)
 	std::cout << std::endl;
 }
 
-void Harl::debug(void)
+void Harl::info(void)
 {
 	std::cout << "[ INFO ]" << std::endl;
 	std::cout << "I cannot believe adding extra bacon costs more money. You didn’t put enough bacon in my burger! If you did, I wouldn’t be asking for more!" << std::endl;
 	std::cout << std::endl;
 }
-void Harl::debug(void)
+void Harl::warning(void)
 {
 	std::cout << "[ WARNING ]" << std::endl;
 	std::cout << "I think I deserve to have some extra bacon for free. I’ve been coming for years, whereas you started working here just last month." << std::endl;
 	std::cout << std::endl;
 }
-void Harl::debug(void)
+void Harl::error(void)
 {
 	std::cout << "[ ERROR ]" << std::endl;
 	std::cout << "This is unacceptable! I want to speak to the manager now." << std::endl;
@@ -101,6 +101,7 @@ void Harl::complain(std::string level)
 		}
 	}
 	// if no match was found after the loop
-	std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
+	std::cout << "[ INVALID ]" << std::endl;
+	std::cout << "No school. No job. No problem." << std::endl;
 	std::cout << std::endl;
 }
