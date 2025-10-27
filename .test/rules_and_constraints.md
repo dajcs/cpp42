@@ -11,6 +11,10 @@ Files containing class code will be named according to the class name, e.g.,
 
 ### Design Requirements:
 - avoid memory leaks
-- In Modules 02 to 09 the classes must be designed in the Orthodox Canonical Form (except when stated otherwise). 
+- In Modules 02 to 09 the classes must be designed in the Orthodox Canonical Form (except when stated otherwise). The classes  will then implement:
+  - Default constructor
+  - Copy constructor
+  - Copy assignment operator
+  - Destructor
 - No function implementation in the header files (except for function templates)
 - It should be possible to use each header independently from others. Thus they must include all the dependencies they need. Double inclusion must be avoided by adding **include guards**. 
