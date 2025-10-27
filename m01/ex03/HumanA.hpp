@@ -6,12 +6,12 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 16:38:46 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/25 16:47:10 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/27 09:57:31 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HUMANA_HPP
-# define HUMNA_HPP
+# define HUMANA_HPP
 
 # include "Weapon.hpp"
 # include <string>
