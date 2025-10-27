@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 15:28:39 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/27 15:46:39 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/27 19:42:16 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ Fixed::Fixed(void): _fixedPointValue(0)
 Fixed::Fixed(const Fixed &other)
 {
 	std::cout << "Copy constructor called" << std::endl;
-	// this->_fixedPointValue = other.getRawBits(); is also a valid way to do.
-	// Here we are directly accessing the raw bits of the 'other' object
+	// this->_fixedPointValue = other.getRawBits(); // is also a valid way to do.
+	// Here we are going to call the copy assignment operator
 	*this = other;
 }
 

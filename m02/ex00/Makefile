@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/21 19:46:34 by anemet            #+#    #+#              #
-#    Updated: 2025/10/23 23:00:34 by anemet           ###   ########.fr        #
+#    Updated: 2025/10/27 18:01:24 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,10 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -fPIE
 
 # The name of the executable
-NAME = BraiiiiiiinnnzzzZ
+NAME = fixedPoint
 
 # Source files
-SRCS = Zombie.cpp  main.cpp  newZombie.cpp  randomChump.cpp
+SRCS = Fixed.cpp  main.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
