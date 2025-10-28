@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/21 19:46:34 by anemet            #+#    #+#              #
-#    Updated: 2025/10/28 10:56:58 by anemet           ###   ########.fr        #
+#    Updated: 2025/10/28 13:00:57 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,10 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -fPIE
 
 # The name of the executable
-NAME = fixedPoint02
+NAME = bsp
 
 # Source files
-SRCS = Fixed.cpp  main.cpp
+SRCS = bsp.cpp  Fixed.cpp  main.cpp  Point.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
