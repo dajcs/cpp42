@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 13:55:34 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/29 14:11:56 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/29 17:54:00 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@
 // C++ inheritance syntax
 // `class ScavTrap : public ClapTrap' means that ScavTrap is a publicly derived
 // class of ClapTrap. It gets all the public and protected members of ClapTrap.
-class ScavTrap: public ClapTrap
+/* "virtual"
+	We add the "virtual" keyword here.
+	This tells the compiler that anyone inheriting from ScavTrap should share
+	a single ClapTrap subobject to prevent the Diamond Problem.
+*/
+class ScavTrap: public virtual ClapTrap
 {
 	public:
 		// Constructor for ScavTrap

@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 15:00:12 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/29 15:34:07 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/29 17:55:58 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "ClapTrap.hpp"  // We must include the header of the base class
 
 // FragTrap is another public child of ClapTrap
-class FragTrap: public ClapTrap
+// adding "virtual" to prevent double ClapTrap member variable instance
+class FragTrap: public virtual ClapTrap
 {
 	public:
 		// Constructor for FragTrap
