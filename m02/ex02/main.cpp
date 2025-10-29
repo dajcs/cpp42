@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 10:30:04 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/28 10:48:38 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/29 05:49:44 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,15 @@ int main(void)
 	// Because 'b' is const, this will call the 'const' version of Fixed::max
 	std::cout << Fixed::max(a, b) << std::endl;
 
+	std::cout << "\n ----------  x and y  ------------\n" << std::endl;
+
+	Fixed x(-3.3f);
+	std::cout << "x = " << x << std::endl;
+
+	Fixed y(-3);
+	std::cout << "y = " << y << std::endl;
+
+	Fixed z = x * y;
+	std::cout << "z = x * y = " << z << "\n" << std::endl;
 	return 0;
 }
