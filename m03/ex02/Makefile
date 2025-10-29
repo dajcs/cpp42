@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/21 19:46:34 by anemet            #+#    #+#              #
-#    Updated: 2025/10/29 15:29:50 by anemet           ###   ########.fr        #
+#    Updated: 2025/10/29 15:38:39 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,10 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -fPIE
 
 # The name of the executable
-NAME = scavtrap
+NAME = fragtrap
 
 # Source files
-SRCS = ClapTrap.cpp  main.cpp  ScavTrap.cpp
+SRCS = ClapTrap.cpp  main.cpp  ScavTrap.cpp FragTrap.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
