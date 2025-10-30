@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 20:34:53 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/29 20:42:54 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/30 14:00:26 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Animal::Animal(const Animal &other)
 }
 
 // Copy Assignment Operator
-Animal &Animal::operator=(const Animal &other)
+Animal& Animal::operator=(const Animal &other)
 {
 	std::cout << "Animal Copy Assignment Operator called" << std::endl;
 	// Check for self-assignment to avoid issues
@@ -43,7 +43,7 @@ Animal &Animal::operator=(const Animal &other)
 // Destructor
 Animal::~Animal()
 {
-	std::cout << "Animal Destructor called" << std::endl;
+	std::cout << "Animal Destructor called\n" << std::endl;
 }
 
 // --- Member Functions ---
@@ -53,7 +53,7 @@ void Animal::makeSound() const
 	std::cout << "An indistinct animal sound..." << std::endl;
 }
 
-const std::string &Animal::getType() const
+const std::string& Animal::getType() const
 {
 	return this->type;
 }

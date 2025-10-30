@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 20:17:43 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/29 20:34:35 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/30 09:15:59 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Animal
 		// 2. Copy Constructor: Called when a new object is created as a copy of an existing object
 		Animal(const Animal &other);
 		// 3. Copy Assignment Operator: Called when an existing object is assigned the value of another object
-		Animal &operator=(const Animal &other);
+		Animal& operator=(const Animal &other);
 		/* 4. Destructor: Called when an object is destroyed
 			- It is virtual to ensure that when we delete an object through a base class pointer,
 				the correct destructor of the derived class is called first.

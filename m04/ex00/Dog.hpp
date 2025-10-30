@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 20:45:15 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/29 20:53:16 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/30 09:20:54 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class Dog : public Animal
 		// --- Orthodox Canonical Form ---
 		Dog();
 		Dog(const Dog &other);
-		Dog &operator=(const Dog &other);
+		Dog& operator=(const Dog &other);
 		~Dog(); // Destructor is automatically virtual because the base's is
 
 		// ----- Member Functions -------

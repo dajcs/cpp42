@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 20:53:48 by anemet            #+#    #+#             */
-/*   Updated: 2025/10/29 21:01:19 by anemet           ###   ########.fr       */
+/*   Updated: 2025/10/30 13:59:58 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 Dog::Dog()
 {
 	this->type = "Dog";
-	std::cout << "Dog Default Constructor called" << std::endl;
+	std::cout << "Dog Default Constructor called\n" << std::endl;
 }
 
 Dog::Dog(const Dog &other): Animal(other)
