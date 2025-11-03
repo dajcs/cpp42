@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 13:02:07 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/01 17:41:44 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/03 13:51:53 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void Character::_clearInventory()
 // Performs a deep copy of another characters's inventory
 void Character::_copyInventory(const Character& other)
 {
-	for (int i; i < 4; ++i)
+	for (int i = 0; i < 4; ++i)
 	{
 		if (other._inventory[i])
 		{
