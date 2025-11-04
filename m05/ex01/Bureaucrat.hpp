@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 19:13:23 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/03 20:00:30 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/04 10:20:28 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <iostream>
 # include <string>
 # include <stdexcept>
+
+// Forward declaratioin for Form class to avoid circular dependencies
+class Form;
 
 class Bureaucrat
 {
@@ -38,11 +41,12 @@ class Bureaucrat
 		// --- Member functions ---
 		void incrementGrade();
 		void decrementGrade();
+		void signForm(Form& form) const; 
 
 		// --- Custom Exception Classes ---
 		/*
 			Defining our own exception classes that inherit from std::exception
-			Exceptions can be caught by a generic 'chat(std::exception& e)' block.
+			Exceptions can be caught by a generic 'char(std::exception& e)' block.
 			The what() method is virtual in std::exception, and we override it
 			to provide our own custom message.
 		*/

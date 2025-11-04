@@ -6,11 +6,12 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 19:32:47 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/03 20:23:20 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/04 10:26:54 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include "Form.hpp" // to access Form's methods
 
 // --- Orthodox Canonical Form ---
 
@@ -80,6 +81,25 @@ void Bureaucrat::decrementGrade()
 		throw Bureaucrat::GradeTooLowException();
 	}
 	this->_grade++;
+}
+
+/* signForm() (NEW)
+	Attempts to sign a form. It calls the form's be Signed method.
+	Wrapping this call in a try-catch block to handle both success and failure
+*/
+void Bureaucrat::signForm(Form& form) const
+{
+	try
+	{
+		form.beSigned(*this);
+		std::cout << this->_name << " signed " << form.getName() << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << this->_name << " coudn't sign " << form.getName()
+		<< " because " << e.what() << '\n';
+	}
+
 }
 
 
