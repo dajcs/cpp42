@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 19:59:06 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/04 16:45:47 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/04 20:00:36 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,20 @@ int main()
 
 	std::cout << "--- Robotomy Request Form Tests ---" << std::endl;
 	std::cout << midGrade << std::endl;
-	
+	std::cout << roboForm << std::endl;
+	midGrade.executeForm(roboForm); // Fails (not signed)
+	midGrade.signForm(roboForm); // Succeeds (grade 50 vs 72)
+	midGrade.executeForm(roboForm); // Fails (grade 50 vs 45)
+	highGrade.executeForm(roboForm); // Succeeds
+	std::cout << std::endl;
+
+	std::cout << "--- Presidential Pardon Form Tests ---" << std::endl;
+	std::cout << highGrade << std::endl;
+	std::cout << pardonForm << std::endl;
+	highGrade.signForm(pardonForm); // Succeeds
+	midGrade.executeForm(pardonForm); // Fails (grade 50 vs 5)
+	highGrade.executeForm(pardonForm); // Succeeds
+	std::cout << std::endl;
 
 	return 0;
 }
