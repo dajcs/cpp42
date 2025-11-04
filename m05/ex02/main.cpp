@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 19:59:06 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/04 15:23:13 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/04 16:45:47 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ int main()
 	highGrade.executeForm(shrubForm); // Succeeds
 	std::cout << std::endl;
 
+	std::cout << "--- Robotomy Request Form Tests ---" << std::endl;
+	std::cout << midGrade << std::endl;
+	
 
 	return 0;
 }

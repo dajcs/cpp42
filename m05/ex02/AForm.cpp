@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 09:14:17 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/04 14:09:23 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/04 16:40:18 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void AForm::execute(Bureaucrat const & executor) const
 
 // --- Exception Implementations ---
 // throw() is an exception specification
-const char* AForm::GradeTooHighException::what() const throw() { return "AForm grade is too high!"; }
-const char* AForm::GradeTooLowException::what() const throw() { return "Form grade is too low!"; }
+const char* AForm::GradeTooHighException::what() const throw() { return "Grade is too high!"; }
+const char* AForm::GradeTooLowException::what() const throw() { return "Grade is too low!"; }
 const char* AForm::FormNotSignedException::what() const throw() { return "Form is not signed!"; }
 
 // --- Operator Overload Implementation ---

@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 09:14:17 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/04 10:46:02 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/04 16:43:03 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,12 @@ void Form::beSigned(const Bureaucrat& bureaucrat)
 // throw() is an exception specification
 const char* Form::GradeTooHighException::what() const throw()
 {
-	return "Form grade is too high!";
+	return "Grade is too high!";
 }
 
 const char* Form::GradeTooLowException::what() const throw()
 {
-	return "Form grade is too low!";
+	return "Grade is too low!";
 }
 
 
