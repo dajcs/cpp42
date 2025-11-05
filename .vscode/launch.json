@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/convert",
-            "args": ["'c'"],
+            "args": ["\"'c'\""],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

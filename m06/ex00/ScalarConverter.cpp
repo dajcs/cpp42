@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:09:18 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/05 15:56:45 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/05 19:45:02 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ namespace
 	// Function to detect if the string literal is a char
 	bool isChar(const std::string& literal)
 	{
-		return literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'';
+		return literal.length() == 3
+							&& literal[0] == '\''
+							&& literal[2] == '\'';
 	}
 
 
