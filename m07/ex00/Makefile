@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/21 19:46:34 by anemet            #+#    #+#              #
-#    Updated: 2025/11/05 21:50:04 by anemet           ###   ########.fr        #
+#    Updated: 2025/11/06 12:44:29 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,10 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -fPIE
 
 # The name of the executable
-NAME = identify
+NAME = template
 
 # Source files
-SRCS = A.cpp  B.cpp  Base.cpp  C.cpp  main.cpp
+SRCS = main.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
