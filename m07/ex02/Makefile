@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/21 19:46:34 by anemet            #+#    #+#              #
-#    Updated: 2025/11/06 13:56:09 by anemet           ###   ########.fr        #
+#    Updated: 2025/11/06 15:42:02 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -fPIE
 
 # The name of the executable
-NAME = iter
+NAME = array
 
 # Source files
 SRCS = main.cpp
