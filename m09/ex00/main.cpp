@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:54:10 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/11 16:56:38 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/11 20:37:53 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,16 @@ int main(int argc, char **argv)
 		std::cerr << "Use: " << argv[0] << "<input file>" << std::endl;
 		return 1;
 	}
-
+	try
+	{
+		BitcoinExchange btc;
+		btc.loadDatabase("data.csv");
+		btc.processInput(argv[1]);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+		return 1;
+	}
+	return 0;
 }

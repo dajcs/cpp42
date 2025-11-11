@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 15:26:17 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/11 16:52:54 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/11 21:58:46 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,32 @@ void BitcoinExchange::processInput(const std::string& filename)
 		std::string date, separator, valueStr;
 		double value;
 
+		// parse 3 space separated strings:
+		//	- date
+		//	- separator - second test: separator should be '|'
+		//	- valueStr
 		if (!(ss >> date >> separator >> valueStr) || separator != "|")
 		{
 			std::cerr << "Error: bad input => " << line << std::endl;
 			continue;
 		}
 
+		// value should be a parseable double
 		std::stringstream val_ss(valueStr);
 		if (!(val_ss >> value))
 		{
-			std::cerr << "Error: not a valid number." << std::endl;
+			std::cerr << "Error: not a valid number." << " => " << valueStr << std::endl;
 			continue;
 		}
 
+		// value should be positive
 		if (value < 0)
 		{
 			std::cerr << "Error: not a positive number." << std::endl;
 			continue;
 		}
 
+		// value should be <= 1000
 		if (value > 1000)
 		{
 			std::cerr << "Error: too large number." << std::endl;
@@ -112,18 +119,21 @@ void BitcoinExchange::processInput(const std::string& filename)
 
 		// Find the exchange rate for the given date
 		// The lower_bound() function on a map returns an iterator to the first
-		// element wit a key that is not considered to go before the given key.
+		// element whose key is >= to the input date
 		// In a sorted map, this means it's either the element with the exact date,
 		// or the next date after it.
 		std::map<std::string, double>::iterator it = this->_data.lower_bound(date);
 
-		// If the found date is not the exact date, and it's not the beginning of
-		// the map, we need to go one step back to get the closest earlier date.
+		// if iterator points to the begin of the map, and we don't have exact date
+		// we print Error message
+		// it->first is the key, it->second is the value
 		if (it == this->_data.begin() && it->first != date)
 		{
-			std::cerr << "Error: no data available for  or before this date => " << date << std::endl;
+			std::cerr << "Error: BTC price before 2009-01-02 not available, input date => " << date << std::endl;
 			continue;
 		}
+		// If the found date is not the exact date, or it is the end of the map
+		// then we need to go one step back to get the closest earlier date.
 		if (it == this->_data.end() || it->first != date)
 		{
 			--it;
