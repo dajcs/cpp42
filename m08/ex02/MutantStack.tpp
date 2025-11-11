@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 16:23:02 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/10 16:53:28 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/11 10:41:43 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::
 template <typename T, typename Container>
 typename MutantStack<T, Container>::const_reverse_iterator MutantStack<T, Container>::rbegin() const
 {
-	return this->rbegin()
+	return this->rbegin();
 }
 
 

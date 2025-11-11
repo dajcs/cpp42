@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/21 19:46:34 by anemet            #+#    #+#              #
-#    Updated: 2025/11/10 10:51:23 by anemet           ###   ########.fr        #
+#    Updated: 2025/11/11 10:41:24 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -fPIE
 NAME = mstack
 
 # Source files
-SRCS = main.cpp  Span.cpp
+SRCS = main.cpp 
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
