@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:54:10 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/11 20:37:53 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/12 08:55:44 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		std::cerr << "Use: " << argv[0] << "<input file>" << std::endl;
+		std::cerr << "Use: " << argv[0] << " <input file>" << std::endl;
 		return 1;
 	}
 	try

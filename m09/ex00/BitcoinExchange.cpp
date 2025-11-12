@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 15:26:17 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/11 21:58:46 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/12 09:24:10 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,21 @@ void BitcoinExchange::processInput(const std::string& filename)
 		std::stringstream val_ss(valueStr);
 		if (!(val_ss >> value))
 		{
-			std::cerr << "Error: not a valid number." << " => " << valueStr << std::endl;
+			std::cerr << "Error: not a valid number" << " => " << valueStr << std::endl;
 			continue;
 		}
 
 		// value should be positive
 		if (value < 0)
 		{
-			std::cerr << "Error: not a positive number." << std::endl;
+			std::cerr << "Error: not a positive number => " << valueStr << std::endl;
 			continue;
 		}
 
 		// value should be <= 1000
 		if (value > 1000)
 		{
-			std::cerr << "Error: too large number." << std::endl;
+			std::cerr << "Error: too large number => " << valueStr << std::endl;
 			continue;
 		}
 
@@ -124,20 +124,33 @@ void BitcoinExchange::processInput(const std::string& filename)
 		// or the next date after it.
 		std::map<std::string, double>::iterator it = this->_data.lower_bound(date);
 
+
+		/*
+
+		We could print that we dont have BTC price before 2009-01-02, but anyway in
+		our database the first price on 2009-01-02 is 0 so it makes sense to have
+		0 as the price before this date
+
 		// if iterator points to the begin of the map, and we don't have exact date
 		// we print Error message
 		// it->first is the key, it->second is the value
 		if (it == this->_data.begin() && it->first != date)
 		{
-			std::cerr << "Error: BTC price before 2009-01-02 not available, input date => " << date << std::endl;
+			std::cerr << "Error: BTC price before 2009-01-02 not available => " << date << std::endl;
 			continue;
 		}
-		// If the found date is not the exact date, or it is the end of the map
+		*/
+
+		// If the found date is not the exact date, or `it` is at the end of the map
 		// then we need to go one step back to get the closest earlier date.
-		if (it == this->_data.end() || it->first != date)
+		// of course if `it` is already at the begining of the map,
+		//												 then we're not decreasing it
+		if ( (it == this->_data.end() || it->first != date)
+												&& (it != this->_data.begin()) )
 		{
 			--it;
 		}
+		// all good, print out the btc value on the given day
 		std::cout << date << " => " << value << " = " << (value * it->second) << std::endl;
 	}
 	file.close();
