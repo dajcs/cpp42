@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 16:53:52 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/11 14:03:58 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/12 10:24:00 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,50 @@ void additionalTests()
 	}
 }
 
+// deque -> list container
+void testWithListContainer()
+{
+	std::cout << "\n--- Testing with std::list as the underlying container ---" << std::endl;
+
+	// We explicitly provide the second template argument
+	// reminder when we specified the first template argument only:
+	// 											MutantStack<int> mstack;
+	//											MutantStack<std::string> stringStack;
+	MutantStack<int, std::list<int> > list_based_stack;
+
+	// The stack interface works the same
+	list_based_stack.push(0);
+	list_based_stack.push(10);
+	list_based_stack.push(100);
+	list_based_stack.push(200);
+	list_based_stack.push(300);
+
+	std::cout << "Size: " << list_based_stack.size() << std::endl;	// expecting 5
+	std::cout << "Top: " << list_based_stack.top() << std::endl; 	// expecting 300
+
+	list_based_stack.pop();
+
+	std::cout << "After pop, Top: " << list_based_stack.top() << std::endl; // expected 200
+
+	// the iterators still work because std::list has them
+	std::cout << "Iterating through the list-based MutantStack:" << std::endl;
+
+	// We must use the specific iterator type for this instantiation of the stack
+	MutantStack<int, std::list<int> >::iterator it = list_based_stack.begin();
+	MutantStack<int, std::list<int> >::iterator ite = list_based_stack.end();
+
+	while (it != ite)
+	{
+		std::cout << *it << std::endl;
+		++it;
+	}
+}
+
 int main()
 {
 	testSubject();
 	additionalTests();
+	testWithListContainer();
 
 	return 0;
 }
