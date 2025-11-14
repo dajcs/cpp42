@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/21 19:46:34 by anemet            #+#    #+#              #
-#    Updated: 2025/11/12 16:52:32 by anemet           ###   ########.fr        #
+#    Updated: 2025/11/14 14:32:04 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,4 +47,18 @@ fclean: clean
 # Re target to rebuild everything
 re: fclean all
 
-.PHONY: all clean fclean re
+
+# debug
+debug:
+	@echo CXX = $(CXX)
+	@echo CXXFLAGS = $(CXXFLAGS)
+	@echo NAME = $(NAME)
+	@echo SRCS = $(SRCS)
+	@echo OBJS = $(OBJS)
+	@echo
+	@echo --------------
+	@echo
+	@$(MAKE) all MAKEFLAGS="--trace"
+
+
+.PHONY: all clean fclean re debug

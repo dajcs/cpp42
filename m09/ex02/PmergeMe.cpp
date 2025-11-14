@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:44:06 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/13 16:24:12 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/14 10:13:56 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,46 @@ void PmergeMe::mergeInsertSort(std::vector<int>& vec)
 	// Step 4: Recursively sort the mainChain
 	mergeInsertSort(mainChain);
 
+
+/*  Proper implementation of the mergeInserSort would need to have pendChain with
+	elements corresponding to the pairs of the now sorted mainChain
+	However this would increase the comparisons we're trying to avoid,
+	implementing the snippet below increased running time for 3000 elements
+	from  967 us (vector) /  3655 us (deque)
+	to   6062 us (vector) / 78877 us (deque)
+
+	The other problem with the code below is that this won't allow us to have
+	duplicate elements in the list to be sorted, because if we have duplicate elements,
+	the reconstruction of the pendChain would find only the first occurence of duplicates.
+
+	We could have reconstruct pendChain using `std::map`, then we would have
+	mainChain automatically sorted from std::map keys, and pendChain could be
+	easily reconstructed from std::map values, but that would likely violate the
+	spirit of the project as it would sidestep the core algorithm.
+
+	Another approach could be to implement the whole mergeInserSort for pairs
+	and then sorting recursively by the first element and unpacking the pairs
+	only for the last mergeInsert process.
+
+	// Step 4b: Create pendChain by looking up elements in the now sorted mainChain
+	//			and inserting the corresponding pair
+	std::vector<int> pendChain;
+	for (size_t i = 0; i < mainChain.size(); ++i)
+	{
+		int main_val = mainChain[i];
+		for (size_t j = 0; j < pairs.size(); ++j)
+		{
+			if (pairs[j].first == main_val)
+			{
+				pendChain.push_back(pairs[j].second);
+				break; // Found the match, move to the next mainChain element
+			}
+		}
+	}
+
+*/
+
+
 	// Step 5: Insert pendChain elements into mainChain using Jacobsthal seq
 	// This minimizes comparisons by keeping the search range for binary search
 	// (std::lower_bound) as large as possible
@@ -355,6 +395,23 @@ void PmergeMe::mergeInsertSort(std::deque<int>& deq)
 
 	// Step 4: Recursively sort the mainChain
 	mergeInsertSort(mainChain);
+
+/*  This is not a good idea
+
+	for (size_t i = 0; i < mainChain.size(); ++i)
+	{
+		int main_val = mainChain[i];
+		for (size_t j = 0; j < pairs.size(); ++j)
+		{
+			if (pairs[j].first == main_val)
+			{
+				pendChain.push_back(pairs[j].second);
+				break; // Found the match, move to the next mainChain element
+			}
+		}
+	}
+*/
+
 
 	// Step 5: Insert pendChain elements into mainChain using Jacobsthal seq
 	// This minimizes comparisons by keeping the search range for binary search
