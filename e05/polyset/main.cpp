@@ -1,6 +1,37 @@
 #include "searchable_bag.hpp"
-
 #include <iostream>
+#include "searchable_array_bag.hpp"
+#include "searchable_tree_bag.hpp"
+#include "set.hpp"
+
+/*
+
+                  +-------------------------+
+                  |           bag           | (Abstract Base Class):
+                  +-------------------------+   insert(), print(), clear()
+                               ^
+          _____________________|___________________________________
+         | (virtual)                     | (virtual)               | (virtual)
+         |                               |                         |
++------------------------+       +----------------+        +----------------+
+|   searchable_bag       |       |   array_bag    |        |    tree_bag    |
+|     (Abstract): has()  |       +----------------+        +----------------+
++------------------------+              ^                          ^
+         ^          ^                   |                          |
+         |          |______     ________|                          |
+         |                 |   |                                   |
+         |                 |   |                                   |
+         |       +----------------------+                          |
+         |       | searchable_array_bag | (TODO)                   |
+         |       +----------------------+                          |
+         |                                                         |
+         |__________________________________      _________________|
+                                            |    |
+                                            |    |
+                                   +-----------------------+
+                                   |  searchable_tree_bag  | (TODO)
+                                   +-----------------------+
+*/
 
 int main(int argc, char **argv) {
   if (argc == 1)

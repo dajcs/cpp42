@@ -1,20 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   searchable_array_bag.hpp                           :+:      :+:    :+:   */
+/*   searchable_array_bag.cpp                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 21:56:06 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/17 09:36:37 by anemet           ###   ########.fr       */
+/*   Created: 2025/11/17 09:46:28 by anemet            #+#    #+#             */
+/*   Updated: 2025/11/17 10:24:49 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SEARCHABLE_ARRAYBAG_HPP
-# define SEARCHABLE_ARRAYBAG_HPP
-
-#include "array_bag.hpp"
-#include "searchable_bag.hpp"
+#include "searchable_array_bag.hpp"
 
 /*
 
@@ -46,24 +42,39 @@
 */
 
 
-/*
-	`searchable_array_bag` inherits from both `array_bag`and `searchable_bag`
-	- it gets the array-based implementation from `array_bag`
-	- it gets the requirement to implement the `has()` method from `searchable_bag`
-	- `insert()`, `print()`, `clear()` already implemented in `array_bag`
-*/
-class searchable_array_bag : public array_bag, public searchable_bag
+// Default constructor: Initializes the object by calling the base class constructor
+searchable_array_bag::searchable_array_bag() : array_bag() {}
+
+// Copy constructor
+// Explicitly calls the `array_bag` copy constructor to copy the base part
+// We're calling only for `array_bag`, because `searchable_bag` has no data, it is a pure interface
+searchable_array_bag::searchable_array_bag(const searchable_array_bag &other) : array_bag(other) {}
+
+// Copy assignment operator
+// it calls the `array_bag` assignment operator to handle the assignment of the base part
+searchable_array_bag &searchable_array_bag::operator=(const searchable_array_bag &other)
 {
-	public:
-		// --- Orthodox Canonical Form
-		searchable_array_bag(); // Default constructor
-		searchable_array_bag(const searchable_array_bag &other); // Copy constructor
-		searchable_array_bag &operator=(const searchable_array_bag &other); // Copy assignment operator
-		~searchable_array_bag(); // Destructor
+	if (this != &other)
+	{
+		array_bag::operator=(other);
+	}
+	return *this;
+}
 
-		// Implementation of the pure virtual function from `searchable_bag`
-		bool has(int value) const;
-};
+// Destructor: The base class destructor is automatically called
+searchable_array_bag::~searchable_array_bag() {}
 
-
-#endif
+// has(): implements the search for the array-based bag
+// it performs a linear search through the array
+// it is `const` because it is not modifying the object
+bool searchable_array_bag::has(int value) const
+{
+	for (int i = 0; i < this->size; ++i)
+	{
+		if (this->data[i] == value)
+		{
+			return true;
+		}
+	}
+	return false;
+}

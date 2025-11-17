@@ -1,20 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   searchable_array_bag.hpp                           :+:      :+:    :+:   */
+/*   searchable_tree_bag.hpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 21:56:06 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/17 09:36:37 by anemet           ###   ########.fr       */
+/*   Created: 2025/11/17 10:25:34 by anemet            #+#    #+#             */
+/*   Updated: 2025/11/17 13:46:34 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifndef SEARCHABLE_ARRAYBAG_HPP
-# define SEARCHABLE_ARRAYBAG_HPP
-
-#include "array_bag.hpp"
-#include "searchable_bag.hpp"
 
 /*
 
@@ -45,25 +39,29 @@
                                    +-----------------------+
 */
 
+#ifndef SEARCHABLE_TREE_BAG_HPP
+# define SEARCHABLE_TREE_BAG_HPP
+
+# include "tree_bag.hpp"
+# include "searchable_bag.hpp"
+# include <unistd.h>
 
 /*
-	`searchable_array_bag` inherits from both `array_bag`and `searchable_bag`
-	- it gets the array-based implementation from `array_bag`
-	- it gets the requirement to implement the `has()` method from `searchable_bag`
-	- `insert()`, `print()`, `clear()` already implemented in `array_bag`
+	`searchable_tree_bag` inherits from `tree_bag` and `searchable_bag`
+	- it gets data structure binary tree implementation from `tree_bag`
+	- it gets requirement to implement the `has()` method from `searchable_bag`
 */
-class searchable_array_bag : public array_bag, public searchable_bag
+class searchable_tree_bag : public tree_bag, public searchable_bag
 {
 	public:
-		// --- Orthodox Canonical Form
-		searchable_array_bag(); // Default constructor
-		searchable_array_bag(const searchable_array_bag &other); // Copy constructor
-		searchable_array_bag &operator=(const searchable_array_bag &other); // Copy assignment operator
-		~searchable_array_bag(); // Destructor
+		// Orthodox Canonical Form
+		searchable_tree_bag();	// Default constructor
+		searchable_tree_bag(const searchable_tree_bag &other); // Copy constructor
+		searchable_tree_bag& operator=(const searchable_tree_bag &other); // Copy assignment operator
+		~searchable_tree_bag(); // Destructor
 
-		// Implementation of the pure virtual function from `searchable_bag`
+		// Implementation of the virtual function from `searchable_bag`
 		bool has(int value) const;
 };
-
 
 #endif

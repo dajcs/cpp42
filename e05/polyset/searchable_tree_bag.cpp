@@ -1,20 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   searchable_array_bag.hpp                           :+:      :+:    :+:   */
+/*   searchable_tree_bag.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 21:56:06 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/17 09:36:37 by anemet           ###   ########.fr       */
+/*   Created: 2025/11/17 12:59:58 by anemet            #+#    #+#             */
+/*   Updated: 2025/11/17 13:47:21 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SEARCHABLE_ARRAYBAG_HPP
-# define SEARCHABLE_ARRAYBAG_HPP
-
-#include "array_bag.hpp"
-#include "searchable_bag.hpp"
 
 /*
 
@@ -45,25 +40,46 @@
                                    +-----------------------+
 */
 
+#include "searchable_tree_bag.hpp"
 
-/*
-	`searchable_array_bag` inherits from both `array_bag`and `searchable_bag`
-	- it gets the array-based implementation from `array_bag`
-	- it gets the requirement to implement the `has()` method from `searchable_bag`
-	- `insert()`, `print()`, `clear()` already implemented in `array_bag`
-*/
-class searchable_array_bag : public array_bag, public searchable_bag
+// Default constructor: Initializes the object by calling the `tree_bag` constructor
+// The `searchable_bag` has no data to be initiated
+searchable_tree_bag::searchable_tree_bag() : tree_bag() {}
+
+// Copy constructor: Calls the base class constructor `tree_bag`
+// doesn't call `searchable_bag` because that has no data to be copied
+searchable_tree_bag::searchable_tree_bag(const searchable_tree_bag &other) : tree_bag(other) {}
+
+// Copy assignment operator: Calls the `tree_bag` assignment operator
+searchable_tree_bag &searchable_tree_bag::operator=(const searchable_tree_bag &other)
 {
-	public:
-		// --- Orthodox Canonical Form
-		searchable_array_bag(); // Default constructor
-		searchable_array_bag(const searchable_array_bag &other); // Copy constructor
-		searchable_array_bag &operator=(const searchable_array_bag &other); // Copy assignment operator
-		~searchable_array_bag(); // Destructor
+	if (this != &other)
+	{
+		tree_bag::operator=(other);
+	}
+	return *this;
+}
 
-		// Implementation of the pure virtual function from `searchable_bag`
-		bool has(int value) const;
-};
+// Destructor: The base class destructor is automatically called, nothing to do
+searchable_tree_bag::~searchable_tree_bag() {}
 
 
-#endif
+// has(): Implements the search functionality for the tree-based bag
+// It leverages the binary search tree structure for an efficient search.
+// This function is 'const' because it does not modify the object's state.
+bool searchable_tree_bag::has(int value) const
+{
+	node *current = this->tree;
+	while (current != NULL)
+	{
+		if (value < current->value)
+			current = current->l;
+		else if (value > current->value)
+			current = current->r;
+		else
+			return true; // value found
+	}
+	return false; // value not found
+}
+
+
