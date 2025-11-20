@@ -5,83 +5,89 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/14 15:29:07 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/16 10:34:12 by anemet           ###   ########.fr       */
+/*   Created: 2025/11/18 15:34:13 by anemet            #+#    #+#             */
+/*   Updated: 2025/11/20 11:13:46 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BIGINT_HPP
-# define BIGINT_HPP
+#pragma once
 
+#include <sstream>
 #include <iostream>
+#include <string>
+#include <cstdlib>
 
-// The bigint class will store an arbitrary precisioin unsigned integer
 class bigint
 {
 	private:
-		// store the number as a string in base 10
 		std::string str;
 
 	public:
-		// --- Orthodox Canonical Form ---
+		bigint(); // Default constructor
+		bigint(unsigned int n); // Parametrized constructor
+		bigint(const bigint &other); // Copy constructor
+		bigint& operator=(const bigint& other); // Copy assignment operator
+		~bigint(); // destructor;
 
-		// Default constructor
-		bigint();
-		// Parametrized constructor from a number
-		bigint(long long n);
-		// Copy constructor
-		bigint(const bigint& other);
-		// Copy assignment operator
-		bigint& operator=(const bigint& other);
-		// Destructor
-		~bigint();
+		// getter
+		std::string getStr() const;
 
+		// --- + operators ---
+		bigint operator+(const bigint &other) const; // add, create new obj
+		bigint& operator+=(const bigint &other); // add inplace
 
-		// --- Arithmetic Operators ---
+		//  ++ operators
+		bigint& operator++(); // pre-increment
+		bigint operator++(int); // post-increment
 
-		// Addition operator
-		bigint operator+(const bigint& other) const;
-		// Addition assignment operator
-		bigint& operator+=(const bigint& other);
+		// --- shift with num
+		// not necessary, the compiler knows we can convert unsigned int to bigint,
+		// 		bigint(unsigned int n); // Parametrized constructor
+		// and it will use that constructor to create the obj
+		// and then we're going to use the --> shift with obj
 
+		/*
+			We could do the reverse, define only the shift with num
+			but then we would need to have a default conversion from
+			obj -> unsigned int with operator unsigned int
+		public:
+			operator unsigned int() const;
 
-		// --- Increment Operators ---
+		implementation:
+		bigint::operator unsigned int() const
+		{
+			unsigned int result;
+			std::stringstream ss(this->str);
+			ss >> result;  // no protection against overflow
+			return result;
+		}
 
-		// Pre-increment operator (++a)
-		bigint& operator++();
-		// Post-increment operator (a++)
-		bigint operator++(int);
+		**Note**: the return type should not be specified in the definition
+		and implementation because the operator name implies what will be
+		the return type.
 
+		*/
+		// bigint operator>>(unsigned int shift) const; // right shift
+		// bigint& operator>>=(unsigned int shift); // inplace right-shift
+		// bigint operator<<(unsigned int shift) const; // left shift
+		// bigint& operator<<=(unsigned int shift); // inplace left-shift
 
-		// --- Comparison operators ---
+		// --- shift with obj
+		bigint operator>>(const bigint& other) const; // right shift
+		bigint& operator>>=(const bigint& other); // inplace right-shift
+		bigint operator<<(const bigint& other) const; // left shift
+		bigint& operator<<=(const bigint& other); // inplace left-shift
 
+		// --- comparison operators
+		bool operator<(const bigint& other) const;
+		bool operator>(const bigint& other) const;
+		bool operator<=(const bigint& other) const;
+		bool operator>=(const bigint& other) const;
 		bool operator==(const bigint& other) const;
 		bool operator!=(const bigint& other) const;
-		bool operator<(const bigint& other) const;
-		bool operator<=(const bigint& other) const;
-		bool operator>(const bigint& other) const;
-		bool operator>=(const bigint& other) const;
-
-
-		// Dig-shift operators (decimal dig-shift) ---
-
-		bigint operator<<(const bigint& other) const;
-		bigint& operator <<=(const bigint& other);
-		bigint operator>>(const bigint& other) const;
-		bigint& operator >>=(const bigint& other);
-
-		// Public getter to allow access from the stream insertion operator<<
-		const std::string& getString() const;
-
 };
 
 
-/*
-	Overload of the stream insertion operator '<<'
+// --- non-member stream insertion operator<<
 
-	This is a non-member function that allows printing bigint objects to
-	an output stream, like std::cout
-*/
-std::ostream& operator<<(std::ostream& os, const bigint& bi);
-
-#endif
+std::ostream& operator<<(std::ostream& output, const bigint& bi);

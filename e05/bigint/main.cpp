@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 10:37:00 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/20 11:23:06 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/20 13:20:24 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ void run_additional_tests ()
 
 	// Construction from strange values
 	std::cout << "bigint(-1) = " << bigint(-1) << std::endl;
-//	std::cout << "bigint(0.001) = " << bigint(0.001) << std::endl;
-	std::cout << "bigint(1e14) = " << bigint(1e14) << std::endl;
-	std::cout << "bigint(1.1e15) = " << bigint(1.1e15) << std::endl;
-	std::cout << "bigint(1.1e17) = " << bigint(1.1e17) << std::endl;
-	std::cout << "bigint(1.234567890123456789e18) = " << bigint(1.234567890123456789e18) << std::endl;
+	// std::cout << "bigint(0.001) = " << bigint(0.001) << std::endl;
+	// std::cout << "bigint(1.234567890123e9) = " << bigint(1.234567890123e9) << std::endl;
+	std::cout << "bigint(2e9) = " << bigint(2e9) << std::endl;
+	std::cout << "bigint(3e9) = " << bigint(3e9) << std::endl;
+	std::cout << "bigint(4e9) = " << bigint(4e9) << std::endl;
+	// std::cout << "bigint(5e9) = " << bigint(5e9) << std::endl;
 	// compilation error: overflow at `double` to `long long` conversion
 	// std::cout << "bigint(1.11e19) = " << bigint(1.11e19) << std::endl;
 
