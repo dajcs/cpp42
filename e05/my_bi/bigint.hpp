@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:34:13 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/19 15:39:34 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/20 11:13:46 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ class bigint
 		// not necessary, the compiler knows we can convert unsigned int to bigint,
 		// 		bigint(unsigned int n); // Parametrized constructor
 		// and it will use that constructor to create the obj
+		// and then we're going to use the --> shift with obj
 
 		/*
 			We could do the reverse, define only the shift with num
@@ -61,8 +62,9 @@ class bigint
 			return result;
 		}
 
-		**Note**: the return type should not be specified because
-		the operator name tells the function what will be the return type.
+		**Note**: the return type should not be specified in the definition
+		and implementation because the operator name implies what will be
+		the return type.
 
 		*/
 		// bigint operator>>(unsigned int shift) const; // right shift
@@ -85,4 +87,7 @@ class bigint
 		bool operator!=(const bigint& other) const;
 };
 
-std::ostream& operator<<(std::ostream& output, const bigint& obj);
+
+// --- non-member stream insertion operator<<
+
+std::ostream& operator<<(std::ostream& output, const bigint& bi);

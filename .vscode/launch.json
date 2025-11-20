@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/polyset",
+            "program": "${fileDirname}/my_bi",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
