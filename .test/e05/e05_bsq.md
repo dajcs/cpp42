@@ -85,12 +85,12 @@ The naive algorithm:
 1. go to each cell of the map starting from (0,0)
 2. for each cell that is empty:
    - record x0, y0, set size to 1
-   - loop increasing i from 1 to min(rows - y0, cols - x0)
-     - check if map[y0+i][x0+i] is empty
-     - check if the new row (y0+i) from x0 to x0+i is empty
-     - check if the new column (x0+i) from y0 to y0+i is empty
-     - if all checks are ok, set size to i+1
-     - if new size is bigger than the recorded size in t_map, update t_map's x0, y0, size
-3. after checking all cells, fill the square in the map from (x0, y0) with size 'size' with the 'full' character
+   - loop increasing size
+     - check if map[y0+size][x0+size] is empty
+     - check if the new row (y0+size) from x0 to x0+size is empty
+     - check if the new column (x0+size) from y0 to y0+size is empty
+     - if all checks are ok, set size to size+1
+     - if new size is bigger than the recorded, update t_map's x0, y0, size
+3. fill the square in the map from (x0, y0) with size 'size' with the 'full' character
 4. print the map
 

@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:17:14 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/21 15:43:22 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/22 16:44:20 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,9 @@ t_map *read_file(t_map *map, char *file)
 		return NULL;
 
 	/* Read and validate first line (map parameters) */
+	// %d -> skip leading white spaces, read number
+	// space ' ' -> skip any white-space, %c -> read exactly 1 character
+	// terminating ' \n' -> skip all remaing white space till end of line (consume line)
 	if (fscanf(fp, "%d %c %c %c \n",
 				&map->rows, &map->empty, &map->obs, &map->full) != 4)
 	{
@@ -274,7 +277,7 @@ void solve_bsq(t_map *map)
 			{
 				curr_size = 1;  // current square size
 
-				// Loop increasing i to check expansion validity
+				// Loop increasing curr_size to check expansion validity
 				while (1)
 				{
 					if (check_size_exp(map, r, c, curr_size))
@@ -297,8 +300,6 @@ void solve_bsq(t_map *map)
 		}
 	}
 }
-
-
 
 
 // ============= Input / Output ============
