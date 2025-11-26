@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   searchable_array_bag.hpp                           :+:      :+:    :+:   */
+/*   searchable_tree_bag.hpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 21:56:06 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/26 11:16:09 by anemet           ###   ########.fr       */
+/*   Created: 2025/11/26 10:35:11 by anemet            #+#    #+#             */
+/*   Updated: 2025/11/26 13:29:49 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include "array_bag.hpp"
+#include "tree_bag.hpp"
 #include "searchable_bag.hpp"
+
 
 /*
 
@@ -48,24 +49,51 @@
 			expose: 2 x insert(), has(), print(), clear()
 			        insert() must avoid duplicates
 					get() to access the underlying bag
+
 */
 
 
-/*
-	`searchable_array_bag` inherits from both `array_bag`and `searchable_bag`
-	- it gets the array-based implementation from `array_bag`
-	- it gets the requirement to implement the `has()` method from `searchable_bag`
-	- `insert()`, `print()`, `clear()` already implemented in `array_bag`
-*/
-class searchable_array_bag : public array_bag, public searchable_bag
+// public inherit -> public members will stay public
+// parents (tree_bag, searchable_bag) have virtual inheritance from grandparent(bag)
+// -> bag members won't be duplicated
+class searchable_tree_bag: public tree_bag, public searchable_bag
 {
 	public:
-		// --- Orthodox Canonical Form
-		searchable_array_bag(); // Default constructor
-		searchable_array_bag(const searchable_array_bag &other); // Copy constructor
-		searchable_array_bag &operator=(const searchable_array_bag &other); // Copy assignment operator
-		~searchable_array_bag(); // Destructor
+	// OCF
 
-		// Implementation of the pure virtual function from `searchable_bag`
-		bool has(int value) const;
+	// Default constructor
+	searchable_tree_bag() {}
+	// Copy constructor
+	searchable_tree_bag(const searchable_tree_bag &other) : tree_bag(other) {}
+	// Copy assignment operator
+	searchable_tree_bag& operator=(const searchable_tree_bag &other)
+	{
+		if (this != &other)
+		{
+			tree_bag::operator=(other);
+		}
+		return *this;
+	}
+	~searchable_tree_bag() {}
+
+	// has()
+	bool has(int val)
+	{
+		node* current = this->tree;
+		while (current)
+		{
+			if (current->value < val)
+			{
+				current = current->l;
+			}
+			else if (current->value > val)
+			{
+				current = current->r;
+			}
+			else
+				return true;
+		}
+		return false;
+	}
+
 };

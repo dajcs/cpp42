@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 13:44:32 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/25 16:30:01 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/26 10:31:11 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@
 
 class searchable_array_bag: public array_bag, public searchable_bag
 {
+
+
+	public:
+
 	// default constructor
 	// call array_bag() constructor
 	// no need to call seachable_bag() constructor, it has only a virtual has() function
@@ -80,4 +84,15 @@ class searchable_array_bag: public array_bag, public searchable_bag
 	// the base class destructor will be called automatically
 	// nothing to do in the code
 	~searchable_array_bag();
+
+
+	bool has(int value)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (data[i] == value)
+				return true;
+		}
+		return false;
+	}
 };

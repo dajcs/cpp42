@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   searchable_array_bag.hpp                           :+:      :+:    :+:   */
+/*   set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/16 21:56:06 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/26 11:16:09 by anemet           ###   ########.fr       */
+/*   Created: 2025/11/26 13:30:51 by anemet            #+#    #+#             */
+/*   Updated: 2025/11/26 13:47:17 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include "array_bag.hpp"
+
 #include "searchable_bag.hpp"
+
 
 /*
 
@@ -48,24 +49,19 @@
 			expose: 2 x insert(), has(), print(), clear()
 			        insert() must avoid duplicates
 					get() to access the underlying bag
+
 */
 
 
-/*
-	`searchable_array_bag` inherits from both `array_bag`and `searchable_bag`
-	- it gets the array-based implementation from `array_bag`
-	- it gets the requirement to implement the `has()` method from `searchable_bag`
-	- `insert()`, `print()`, `clear()` already implemented in `array_bag`
-*/
-class searchable_array_bag : public array_bag, public searchable_bag
+class set
 {
-	public:
-		// --- Orthodox Canonical Form
-		searchable_array_bag(); // Default constructor
-		searchable_array_bag(const searchable_array_bag &other); // Copy constructor
-		searchable_array_bag &operator=(const searchable_array_bag &other); // Copy assignment operator
-		~searchable_array_bag(); // Destructor
+	private:
+		searchable_bag &bag;
 
-		// Implementation of the pure virtual function from `searchable_bag`
-		bool has(int value) const;
+	public:
+		// OCF
+		// (Default) Parametrized constructor
+		// takes a reference to a bag
+		set(searchable_bag &bag);
+
 };
