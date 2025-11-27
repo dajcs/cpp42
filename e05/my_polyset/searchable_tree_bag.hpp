@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:35:11 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/26 13:29:49 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/27 11:50:39 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@
           +--------o-------+ wrap  +-----------------------+
           |      set       o - - > |  searchable_tree_bag  | TODO: OCF, has()
           +----------------+       +-----------------------+
-			TODO: OCF, wrap a bag
-			expose: 2 x insert(), has(), print(), clear()
-			        insert() must avoid duplicates
-					get() to access the underlying bag
+            TODO: OCF, wrap a bag
+            expose: 2 x insert(), has(), print(), clear()
+                    insert() must avoid duplicates
+                    get() to access the underlying bag
 
 */
 
@@ -74,10 +74,10 @@ class searchable_tree_bag: public tree_bag, public searchable_bag
 		}
 		return *this;
 	}
-	~searchable_tree_bag() {}
+	~searchable_tree_bag() {};
 
 	// has()
-	bool has(int val)
+	bool has(int val) const
 	{
 		node* current = this->tree;
 		while (current)

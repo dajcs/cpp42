@@ -1,6 +1,48 @@
 #include "searchable_bag.hpp"
+#include "searchable_tree_bag.hpp"
+#include "searchable_array_bag.hpp"
+#include "set.hpp"
 
 #include <iostream>
+
+
+/*
+
+
+                  +-------------------------+
+                  |           bag           | (Abstract Base Class):
+                  +-------------------------+  2 x insert(), print(), clear()
+                               ^
+          _____________________|___________________________________
+         | (virtual)                     | (virtual)               | (virtual)
+         |                               |                         |
++------------------------+       +----------------+        +----------------+
+|   searchable_bag       |       |   array_bag    |        |    tree_bag    |
+|     (Abstract): has()  |       +----------------+        +----------------+
++------------------------+              ^                          ^
+         ^          ^                   |                          |
+         |          |______     ________|                          |
+         |                 |   |                                   |
+         |                 |   |                                   |
+         |       +----------------------+                          |
+         |       | searchable_array_bag | TODO: OCF, has()         |
+         |       +----------------------+  Orthodox Canonical Form |
+         |         ^                                               |
+         |         |                                               |
+         |__________________________________      _________________|
+                   |                        |    |
+                   | wrap                   |    |
+          +--------o-------+ wrap  +-----------------------+
+          |      set       o - - > |  searchable_tree_bag  | TODO: OCF, has()
+          +----------------+       +-----------------------+
+            TODO: OCF, wrap a bag
+            expose: 2 x insert(), has(), print(), clear()
+                    insert() must avoid duplicates
+                    get() to access the underlying bag
+
+*/
+
+
 
 int main(int argc, char **argv) {
   if (argc == 1)
@@ -40,14 +82,16 @@ int main(int argc, char **argv) {
     sa.get_bag().print();
     st.print();
     sa.clear();
-    sa.insert(
-        (int[]){
-            1,
-            2,
-            3,
-            4,
-        },
-        4);
+    // sa.insert(
+    //     (int[]){
+    //         1,
+    //         2,
+    //         3,
+    //         4,
+    //     },
+    //     4);
+    int temp_arr[] = {1, 2, 3, 4};
+    sa.insert(temp_arr, 4);
     std::cout << std::endl;
   }
 

@@ -6,11 +6,12 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 13:44:32 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/26 10:31:11 by anemet           ###   ########.fr       */
+/*   Updated: 2025/11/27 11:50:56 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
+
 
                   +-------------------------+
                   |           bag           | (Abstract Base Class):
@@ -38,12 +39,13 @@
           +--------o-------+ wrap  +-----------------------+
           |      set       o - - > |  searchable_tree_bag  | TODO: OCF, has()
           +----------------+       +-----------------------+
-			TODO: OCF, wrap a bag
-			expose: 2 x insert(), has(), print(), clear()
-			        insert() must avoid duplicates
-					get() to access the underlying bag
+            TODO: OCF, wrap a bag
+            expose: 2 x insert(), has(), print(), clear()
+                    insert() must avoid duplicates
+                    get() to access the underlying bag
 
 */
+
 
 #pragma once
 
@@ -83,10 +85,12 @@ class searchable_array_bag: public array_bag, public searchable_bag
 	// destructor
 	// the base class destructor will be called automatically
 	// nothing to do in the code
-	~searchable_array_bag();
+	~searchable_array_bag() {};
 
 
-	bool has(int value)
+	// has()
+	// member function
+	bool has(int value) const
 	{
 		for (int i = 0; i < size; i++)
 		{
