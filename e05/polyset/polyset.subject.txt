@@ -23,3 +23,42 @@ Second Part:
 Implement the class set that will wrap a searchable_bag and turn it into a set.
 You will find in this dir a main that must compile with your code.
 All classes should be under orthodox canonical form. Don't forget the const.
+
+
+
+                   Class diagram
+
+(my insertion, not in the original subject description)
+
+
+
+                  +-------------------------+
+                  |           bag           | (Abstract Base Class):
+                  +-------------------------+  2 x insert(), print(), clear()
+                               ^
+          _____________________|___________________________________
+         | (virtual)                     | (virtual)               | (virtual)
+         |                               |                         |
++------------------------+       +----------------+        +----------------+
+|   searchable_bag       |       |   array_bag    |        |    tree_bag    |
+|     (Abstract): has()  |       +----------------+        +----------------+
++------------------------+              ^                          ^
+         ^          ^                   |                          |
+         |          |______     ________|                          |
+         |                 |   |                                   |
+         |                 |   |                                   |
+         |       +----------------------+                          |
+         |       | searchable_array_bag | TODO: OCF, has()         |
+         |       +----------------------+  Orthodox Canonical Form |
+         |         ^                                               |
+         |         |                                               |
+         |__________________________________      _________________|
+                   |                        |    |
+                   | wrap                   |    |
+          +--------o-------+ wrap  +-----------------------+
+          |      set       o - - > |  searchable_tree_bag  | TODO: OCF, has()
+          +----------------+       +-----------------------+
+			TODO: OCF, wrap a bag
+			expose: 2 x insert(), has(), print(), clear()
+			        insert() must avoid duplicates
+					get_bag() to access the underlying bag

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bag.hpp"
-// #include <stdlib.h>  // atoi
 
 class array_bag : virtual public bag
 {

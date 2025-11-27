@@ -5,16 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/17 10:25:34 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/17 13:46:34 by anemet           ###   ########.fr       */
+/*   Created: 2025/11/26 10:35:11 by anemet            #+#    #+#             */
+/*   Updated: 2025/11/27 11:56:26 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+
+#include "tree_bag.hpp"
+#include "searchable_bag.hpp"
+
+
 /*
+
 
                   +-------------------------+
                   |           bag           | (Abstract Base Class):
-                  +-------------------------+   insert(), print(), clear()
+                  +-------------------------+  2 x insert(), print(), clear()
                                ^
           _____________________|___________________________________
          | (virtual)                     | (virtual)               | (virtual)
@@ -28,40 +35,65 @@
          |                 |   |                                   |
          |                 |   |                                   |
          |       +----------------------+                          |
-         |       | searchable_array_bag | (TODO)                   |
-         |       +----------------------+                          |
-         |                                                         |
+         |       | searchable_array_bag | TODO: OCF, has()         |
+         |       +----------------------+  Orthodox Canonical Form |
+         |         ^                                               |
+         |         |                                               |
          |__________________________________      _________________|
-                                            |    |
-                                            |    |
-                                   +-----------------------+
-                                   |  searchable_tree_bag  | (TODO)
-                                   +-----------------------+
+                   |                        |    |
+                   | wrap                   |    |
+          +--------o-------+ wrap  +-----------------------+
+          |      set       o - - > |  searchable_tree_bag  | TODO: OCF, has()
+          +----------------+       +-----------------------+
+            TODO: OCF, wrap a bag
+            expose: 2 x insert(), has(), print(), clear()
+                    insert() must avoid duplicates
+                    get_bag() to access the underlying bag
+
 */
 
-#ifndef SEARCHABLE_TREE_BAG_HPP
-# define SEARCHABLE_TREE_BAG_HPP
 
-# include "tree_bag.hpp"
-# include "searchable_bag.hpp"
-# include <unistd.h>
-
-/*
-	`searchable_tree_bag` inherits from `tree_bag` and `searchable_bag`
-	- it gets data structure binary tree implementation from `tree_bag`
-	- it gets requirement to implement the `has()` method from `searchable_bag`
-*/
-class searchable_tree_bag : public tree_bag, public searchable_bag
+// public inherit -> public members will stay public
+// parents (tree_bag, searchable_bag) have virtual inheritance from grandparent(bag)
+// -> bag members won't be duplicated
+class searchable_tree_bag: public tree_bag, public searchable_bag
 {
 	public:
-		// Orthodox Canonical Form
-		searchable_tree_bag();	// Default constructor
-		searchable_tree_bag(const searchable_tree_bag &other); // Copy constructor
-		searchable_tree_bag& operator=(const searchable_tree_bag &other); // Copy assignment operator
-		~searchable_tree_bag(); // Destructor
+	// OCF
 
-		// Implementation of the virtual function from `searchable_bag`
-		bool has(int value) const;
+	// Default constructor
+	searchable_tree_bag() {}
+	// Copy constructor
+	searchable_tree_bag(const searchable_tree_bag &other) : tree_bag(other) {}
+	// Copy assignment operator
+	searchable_tree_bag& operator=(const searchable_tree_bag &other)
+	{
+		if (this != &other)
+		{
+			tree_bag::operator=(other);
+		}
+		return *this;
+	}
+	~searchable_tree_bag() {};
+
+	// has()
+	bool has(int val) const
+	{
+		node* current = this->tree;
+		while (current)
+		{
+			if (current->value < val)
+			{
+				current = current->l;
+			}
+			else if (current->value > val)
+			{
+				current = current->r;
+			}
+			else
+				return true;
+		}
+		return false;
+	}
+
 };
-
-#endif

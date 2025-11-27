@@ -1,14 +1,17 @@
 #include "searchable_bag.hpp"
-#include <iostream>
-#include "searchable_array_bag.hpp"
 #include "searchable_tree_bag.hpp"
+#include "searchable_array_bag.hpp"
 #include "set.hpp"
+
+#include <iostream>
+
 
 /*
 
+
                   +-------------------------+
                   |           bag           | (Abstract Base Class):
-                  +-------------------------+   insert(), print(), clear()
+                  +-------------------------+  2 x insert(), print(), clear()
                                ^
           _____________________|___________________________________
          | (virtual)                     | (virtual)               | (virtual)
@@ -22,16 +25,24 @@
          |                 |   |                                   |
          |                 |   |                                   |
          |       +----------------------+                          |
-         |       | searchable_array_bag | (TODO)                   |
-         |       +----------------------+                          |
-         |                                                         |
+         |       | searchable_array_bag | TODO: OCF, has()         |
+         |       +----------------------+  Orthodox Canonical Form |
+         |         ^                                               |
+         |         |                                               |
          |__________________________________      _________________|
-                                            |    |
-                                            |    |
-                                   +-----------------------+
-                                   |  searchable_tree_bag  | (TODO)
-                                   +-----------------------+
+                   |                        |    |
+                   | wrap                   |    |
+          +--------o-------+ wrap  +-----------------------+
+          |      set       o - - > |  searchable_tree_bag  | TODO: OCF, has()
+          +----------------+       +-----------------------+
+            TODO: OCF, wrap a bag
+            expose: 2 x insert(), has(), print(), clear()
+                    insert() must avoid duplicates
+                    get_bag() to access the underlying bag
+
 */
+
+
 
 int main(int argc, char **argv) {
   if (argc == 1)
@@ -72,7 +83,7 @@ int main(int argc, char **argv) {
     st.print();
     sa.clear();
     // sa.insert(
-    //   (int[]){
+    //     (int[]){
     //         1,
     //         2,
     //         3,
