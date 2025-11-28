@@ -5,89 +5,191 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/18 15:34:13 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/20 11:13:46 by anemet           ###   ########.fr       */
+/*   Created: 2025/11/28 10:38:42 by anemet            #+#    #+#             */
+/*   Updated: 2025/11/28 14:45:36 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <sstream>
-#include <iostream>
-#include <string>
-#include <cstdlib>
+#include <iostream>	// std::ostream
+#include <sstream>	// std::stringstream
+#include <string>	// std::string
+// #include <cstdlib>	// used for atoi, malloc, free, exit, system,... N/A here
 
 class bigint
 {
 	private:
-		std::string str;
+		std::string		str;
 
 	public:
-		bigint(); // Default constructor
-		bigint(unsigned int n); // Parametrized constructor
-		bigint(const bigint &other); // Copy constructor
-		bigint& operator=(const bigint& other); // Copy assignment operator
-		~bigint(); // destructor;
+		// OCF - Orthodox Canonical Form
+		//Default constructor
+		bigint() : str("0") {};
 
-		// getter
-		std::string getStr() const;
-
-		// --- + operators ---
-		bigint operator+(const bigint &other) const; // add, create new obj
-		bigint& operator+=(const bigint &other); // add inplace
-
-		//  ++ operators
-		bigint& operator++(); // pre-increment
-		bigint operator++(int); // post-increment
-
-		// --- shift with num
-		// not necessary, the compiler knows we can convert unsigned int to bigint,
-		// 		bigint(unsigned int n); // Parametrized constructor
-		// and it will use that constructor to create the obj
-		// and then we're going to use the --> shift with obj
-
-		/*
-			We could do the reverse, define only the shift with num
-			but then we would need to have a default conversion from
-			obj -> unsigned int with operator unsigned int
-		public:
-			operator unsigned int() const;
-
-		implementation:
-		bigint::operator unsigned int() const
+		// parametrized constructor
+		bigint(unsigned int n)
 		{
-			unsigned int result;
-			std::stringstream ss(this->str);
-			ss >> result;  // no protection against overflow
-			return result;
+			std::stringstream ss;
+			ss << n;
+			this->str = ss.str();
 		}
 
-		**Note**: the return type should not be specified in the definition
-		and implementation because the operator name implies what will be
-		the return type.
+		// copy constructor
+		bigint (const bigint &other)
+		{
+			this->str = other.str;
+		}
 
-		*/
-		// bigint operator>>(unsigned int shift) const; // right shift
-		// bigint& operator>>=(unsigned int shift); // inplace right-shift
-		// bigint operator<<(unsigned int shift) const; // left shift
-		// bigint& operator<<=(unsigned int shift); // inplace left-shift
+		// copy assignment operator
+		bigint& operator=(const bigint &other)
+		{
+			if (this != &other)
+			{
+				this->str = other.str;
+			}
+			return *this;
+		}
 
-		// --- shift with obj
-		bigint operator>>(const bigint& other) const; // right shift
-		bigint& operator>>=(const bigint& other); // inplace right-shift
-		bigint operator<<(const bigint& other) const; // left shift
-		bigint& operator<<=(const bigint& other); // inplace left-shift
+		// destructor
+		~bigint() {};
 
-		// --- comparison operators
-		bool operator<(const bigint& other) const;
-		bool operator>(const bigint& other) const;
-		bool operator<=(const bigint& other) const;
-		bool operator>=(const bigint& other) const;
-		bool operator==(const bigint& other) const;
-		bool operator!=(const bigint& other) const;
+
+		bigint& operator+=(const bigint &other)
+		{
+			std::string s1 = this->str;
+			std::string s2 = other.str;
+
+			std::string result = "";
+			int carry = 0;
+			int i = s1.length() - 1;
+			int j = s2.length() - 1;
+			while(carry || i >= 0 || j >= 0)
+			{
+				int d1 = (i >= 0) ? s1[i--] - '0' : 0;
+				int d2 = (j >= 0) ? s2[j--] - '0' : 0;
+				int sum = d1 + d2 + carry;
+				// new carry
+				carry = sum / 10;
+				// new digit char
+				char c = sum % 10 + '0';
+				result = c + result;
+			}
+			this->str = result;
+			return *this;
+		}
+
+		bigint operator+(const bigint &other) const
+		{
+			bigint tmp = bigint(*this);
+			return tmp += other;
+		}
+
+		// pre-increment
+		bigint& operator++()
+		{
+			return *this += bigint(1);
+		}
+
+		// post-increment
+		bigint operator++(int)
+		{
+			bigint tmp = bigint(*this); // copy current object
+			*this += bigint(1);			// incr current object
+			return tmp;					// return copy with the old value
+		}
+
+
+		// left-shift inplace
+		bigint& operator<<=(const bigint &other)
+		{
+			std::stringstream ss(other.str);
+			// ss << other.str;
+			unsigned int shift;
+			ss >> shift;
+			// append shift times '0'
+			this->str.append(shift, '0');
+			return *this;
+		}
+
+		// left-shift
+		bigint operator<<(const bigint &other) const
+		{
+			bigint tmp = bigint(*this);
+			return tmp<<=(other);
+		}
+
+		// right-shift inplace
+		bigint& operator>>=(const bigint &other)
+		{
+			std::stringstream ss(other.str);
+			// ss << other.str;
+			unsigned int shift;
+			ss >> shift;
+			if (shift >= this->str.length())
+			{
+				this->str = "0";
+			}
+			else
+			{
+				// erase from str[length shift] to str end
+				this->str.erase(str.length() - shift);
+			}
+			return *this;
+		}
+
+		// right shift
+		bigint operator>>(const bigint &other) const
+		{
+			bigint tmp = bigint(*this);
+			return tmp>>=(other);
+		}
+
+
+		// comparison
+
+		bool operator<(const bigint &other) const
+		{
+			int l1 = this->str.length();
+			int l2 = other.str.length();
+			if (l1 < l2)
+				return true;
+			else if (l1 > l2)
+				return false;
+			else
+				// return lexicographic difference
+				return this->str < other.str;
+		}
+
+		bool operator==(const bigint &other) const
+		{
+			return this->str == other.str;
+		}
+
+		bool operator>(const bigint &other) const
+		{
+			return !(*this < other) && !(*this == other);
+		}
+
+		bool operator<=(const bigint &other) const
+		{
+			return !(*this > other);
+		}
+
+		bool operator>=(const bigint &other) const
+		{
+			return !(*this < other);
+		}
+
+		bool operator!=(const bigint &other) const
+		{
+			return !(*this == other);
+		}
+
+		friend std::ostream& operator<<(std::ostream &out, const bigint &bi)
+		{
+			out << bi.str;
+			return out;
+		}
+
 };
-
-
-// --- non-member stream insertion operator<<
-
-std::ostream& operator<<(std::ostream& output, const bigint& bi);
