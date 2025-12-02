@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 09:55:09 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/01 15:10:07 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/02 10:20:13 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,18 +152,18 @@ void parse_initial_state(t_game* game)
 
 }
 
-// compute and return nr_neighbours
+// compute and return nr of alive neighbour cells
 int get_neighbours(t_game* game, int r, int c)
 {
-	int nr, nc;
-	int nr_nbr = 0;
+	int nr, nc;         // neighbour row, col
+	int nr_nbr = 0;     // nr alive neighbour cells
 
 	for (int dr = -1; dr <= 1; dr++)
 	{
 		for (int dc = -1; dc <= 1; dc++)
 		{
-			nr = r + dr;
-			nc = c + dc;
+			nr = r + dr; // neighbour row
+			nc = c + dc; // neighbour col
 			if (nr >= 0 && nr < game->height &&	// row within limits
 				nc >= 0 && nc < game->width &&	// col within limits
 				!(r == nr && c == nc) &&		// skip own cell
