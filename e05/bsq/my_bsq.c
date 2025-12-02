@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bsq.c                                              :+:      :+:    :+:   */
+/*   my_bsq.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 16:39:13 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/01 00:59:02 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/02 10:02:48 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ typedef struct s_map
 	char obs;
 	char full;
 	char** grid;
-	int x0;
-	int y0;
-	int size;
+	int r0;  // bsq upper left corner row
+	int c0;  // bsq upper left corner column
+	int size; // bsq size
 }	t_map;
 
 int is_printable(char c)
@@ -116,6 +116,7 @@ int map_error(char* fname, FILE* stream, char* line, t_map* map)
 
 // read map from char* fname
 // if char* fname == NULL -> STDIO
+// return 1 on success, 0 on failure
 int read_map(char* fname, t_map* map)
 {
 	FILE* stream;
@@ -170,7 +171,7 @@ int read_map(char* fname, t_map* map)
 		}
 
 		// store line
-		map->grid[r] = calloc(map->col + 1, sizeof(char));  // +1 for terminating '\0'
+		map->grid[r] = calloc(map->col + 1, sizeof(char));  // +1 for terminating '\0' (easy print)
 		if (!map->grid[r])
 		{
 			return map_error(fname, stream, line, map);
@@ -189,7 +190,7 @@ int read_map(char* fname, t_map* map)
 
 	// check EOF after all lines consumed
 	nread = getline(&line, &len, stream);
-	if ((nread == -1)) // EOF
+	if (nread == -1) // EOF
 	{
 		fclose(stream);
 		free(line);
@@ -210,10 +211,9 @@ void print_map(t_map* map)
 	// fill map
 	for (int i = 0; i < map->size; i++)
 	{
-		for (int j = i; j < map->size; j++)
+		for (int j = 0; j < map->size; j++)
 		{
-			map->grid[map->y0 + i][map->x0 + j] = map->full;
-			map->grid[map->y0 + j][map->x0 + i] = map->full;
+			map->grid[map->r0 + i][map->c0 + j] = map->full;
 		}
 	}
 
@@ -229,18 +229,15 @@ int expand_size(int r, int c, int size, t_map* map)
 	// check boudaries
 	if (r + size >= map->row || c + size >= map->col)
 		return 0;
-	// check diag vertex
+	// check lower right corner
 	if (map->grid[r + size][c + size] == map->obs)
 		return 0;
-	// check new row
 	for (int i = 0; i < size; i++)
 	{
+		// check new row
 		if (map->grid[r + size][c + i] == map->obs)
 			return 0;
-	}
-	// check new column
-	for (int i = 0; i < size; i++)
-	{
+		// check new column
 		if (map->grid[r + i][c + size] == map->obs)
 			return 0;
 	}
@@ -264,8 +261,8 @@ void solve_map(t_map* map)
 				}
 				if (size > map->size)
 				{
-					map->x0 = c;
-					map->y0 = r;
+					map->r0 = r;
+					map->c0 = c;
 					map->size = size;
 				}
 			}
