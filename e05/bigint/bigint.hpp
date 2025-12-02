@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 10:38:42 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/28 14:45:36 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/02 11:06:13 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ class bigint
 		bigint() : str("0") {};
 
 		// parametrized constructor
-		bigint(unsigned int n)
+		bigint(unsigned int n) : str(std::to_string(n))
 		{
-			std::stringstream ss;
-			ss << n;
-			this->str = ss.str();
+			// std::stringstream ss;
+			// ss << n;
+			// this->str = ss.str();
 		}
 
 		// copy constructor
@@ -103,10 +103,11 @@ class bigint
 		// left-shift inplace
 		bigint& operator<<=(const bigint &other)
 		{
-			std::stringstream ss(other.str);
+			// std::stringstream ss(other.str);
 			// ss << other.str;
-			unsigned int shift;
-			ss >> shift;
+			unsigned int shift = std::stoul(other.str);
+
+			// ss >> shift;
 			// append shift times '0'
 			this->str.append(shift, '0');
 			return *this;
@@ -122,17 +123,17 @@ class bigint
 		// right-shift inplace
 		bigint& operator>>=(const bigint &other)
 		{
-			std::stringstream ss(other.str);
+			// std::stringstream ss(other.str);
 			// ss << other.str;
-			unsigned int shift;
-			ss >> shift;
+			unsigned int shift = std::stoul(other.str);
+			// ss >> shift;
 			if (shift >= this->str.length())
 			{
 				this->str = "0";
 			}
 			else
 			{
-				// erase from str[length shift] to str end
+				// erase from str[length - shift] to str end
 				this->str.erase(str.length() - shift);
 			}
 			return *this;
