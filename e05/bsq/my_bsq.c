@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 16:39:13 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/02 17:52:37 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/02 20:13:43 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void free_map_grid(t_map *map)
 	}
 }
 
-int reterror(char* fname, FILE* stream, char* line, t_map* map, char* message)
+int errx(char* fname, FILE* stream, char* line, t_map* map, char* message)
 {
 	if (fname)
 		fclose(stream);
@@ -163,7 +163,7 @@ int read_map(char* fname, t_map* map)
 	{
 		stream = fopen(fname, "r");
 		if (!stream)
-			return reterror(NULL, NULL, NULL, map, "fopen()");
+			return errx(NULL, NULL, NULL, map, "fopen()");
 	}
 	else
 		stream = stdin;
@@ -183,7 +183,7 @@ int read_map(char* fname, t_map* map)
 	nread = getline(&line, &len, stream);
 	if (nread < 5) // we need at least 4 chars + '\n'
 	{
-		return reterror(fname, stream, line, map, "invalid map");
+		return errx(fname, stream, line, map, "invalid map");
 	}
 	int length = ft_strlen(line);  // example line: 9.ox\n
 	// line[length - 1] -> '\n'
@@ -197,7 +197,7 @@ int read_map(char* fname, t_map* map)
 		map->empty == map->obs || map->obs == map->full || map->full == map->empty ||
 		!is_printable(map->empty) || !is_printable(map->obs) || !is_printable(map->full))
 	{
-		return reterror(fname, stream, line, map, "invalid map");
+		return errx(fname, stream, line, map, "invalid map");
 	}
 
 	// read map lines
@@ -209,32 +209,32 @@ int read_map(char* fname, t_map* map)
 		nread = getline(&line, &len, stream);
 		if (nread <= 1)  // we need at least one 'empty'/'obs' + '\n'
 		{
-			return reterror(fname, stream, line, map, "invalid map");
+			return errx(fname, stream, line, map, "invalid map");
 		}
 		if (r == 0) // first row
 		{
 			map->col = nread - 1; // without terminating '\n'
 			map->grid = (char **)calloc(map->row, sizeof(char *));
 			if (!map->grid)
-				return reterror(fname, stream, line, map, "invalid map");
+				return errx(fname, stream, line, map, "invalid map");
 		}
 		else if (nread - 1 != map->col)  // rows must have the same size
 		{
-			return reterror(fname, stream, line, map, "invalid map");
+			return errx(fname, stream, line, map, "invalid map");
 		}
 
 		// store line
 		map->grid[r] = calloc(map->col + 1, sizeof(char));  // +1 for terminating '\0' (easy print)
 		if (!map->grid[r])
 		{
-			return reterror(fname, stream, line, map, "invalid map");
+			return errx(fname, stream, line, map, "invalid map");
 		}
 		for (int c = 0; c < map->col; c++)
 		{
 			map->grid[r][c] = line[c];
 			if (line[c] != map->empty && line[c] != map->obs)
 			{
-				return reterror(fname, stream, line, map, "invalid map");
+				return errx(fname, stream, line, map, "invalid map");
 			}
 		}
 		free(line);
@@ -250,7 +250,7 @@ int read_map(char* fname, t_map* map)
 	}
 	else
 	{
-		return reterror(fname, stream, line, map, "invalid map");
+		return errx(fname, stream, line, map, "invalid map");
 	}
 
 	return 1;
