@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 16:39:13 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/02 20:59:31 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/02 21:12:13 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,7 +274,7 @@ void print_map(t_map* map)
 	{
 		fprintf(stdout, "%s\n", map->grid[r]);
 	}
-	printf("\nr0: %d, c0: %d, size: %d\n\n", map->r0, map->c0, map->size);
+	// printf("\nr0: %d, c0: %d, size: %d\n\n", map->r0, map->c0, map->size);
 }
 
 int expand_size(int r, int c, int size, t_map* map)
