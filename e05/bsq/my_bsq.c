@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 16:39:13 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/02 10:02:48 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/02 17:52:37 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 Assignment name              : bsq
 Expected files               : *.c *.h
 Allowed functions and globals: malloc, calloc, realloc, free, fopen, fclose,
-getline, fscanf, fputs, fprintf, stderr, stdout, stdin, errno
+getline, fscanf, fputs, fprintf, stderr, stdout, stdin, printf
 --------------------------------------------------------------------------------
 
 The aim of this program is to find the biggest square on a map, avoiding obstacles.
 A file containing the map will be provided. It'll have to be passed as an argument for your program.
-The first line of the map contains information on how to read the map (space separated) :
+The first line of the map contains information on how to read the map:
  - The number of lines on the map;
  - The "empty" character;
  - The "obstacle" character;
@@ -27,8 +27,8 @@ The first line of the map contains information on how to read the map (space sep
 The map is made up of '"empty" characters', lines and '"obstacle" characters'.
 The aim of the program is to replace '"empty" characters' by '"full" characters' in order to represent the biggest square possible.
 In the case that more than one solution exists, we'll choose to represent the square that's closest to the top of the map, then the one that's most to the left.
-When your program receives more than one map in argument, each solution or "map error" must be followed by a line break.
-Should there be no passed arguments, your program must be able to read on the standard input.
+In case of map error "Error: invalid map\n" should be printed, other errors should be "Error: <reason>\n"
+The program receives 1 argument - the map filename, but it must read from the standard input when there there is no argument.
 
 cat example.txt | ./a.out
 
@@ -38,12 +38,12 @@ Definition of a valid map :
  - At each end of line, there's a line break.
  - The characters on the map can only be those introduced in the first line.
  - The map is invalid if a character is missing from the first line, or if two characters (of empty, full and obstacle) are identical.
- - The characters can be any printable character, even numbers.
+ - The characters can be any printable characters, even numbers.
  - In case of an invalid map, your program should display "map error" on the error output followed by a line break. Your program will then move on to the next map.
 
 example:
 %>cat example_file
-9 . o x
+9.ox
 ...........................
 ....o......................
 ............o..............
@@ -87,6 +87,19 @@ int is_printable(char c)
 	return (c >= 32 && c <= 126);
 }
 
+int is_digit(char c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+int ft_strlen(char* str)
+{
+	int i = 0;
+	while (str[i])
+		i++;
+	return i;
+}
+
 void free_map_grid(t_map *map)
 {
 	if (map->grid)
@@ -103,15 +116,37 @@ void free_map_grid(t_map *map)
 	}
 }
 
-int map_error(char* fname, FILE* stream, char* line, t_map* map)
+int reterror(char* fname, FILE* stream, char* line, t_map* map, char* message)
 {
 	if (fname)
 		fclose(stream);
 	if (line)
 		free(line);
 	free_map_grid(map);
-	fputs("map error\n", stderr);
+	printf("Error: %s\n", message);
 	return 0;
+}
+
+// parse str without the trailing 4 chars
+int ftx_atoi(char* str, int stop)
+{
+	int i = 0;
+	int res = 0;
+	while (i < stop)
+	{
+		if (is_digit(str[i]))
+		{
+			int digit = str[i] - '0';
+			res = 10 * res + digit;
+		}
+		else
+		{
+			// invalid map
+			return 0;
+		}
+		i++;
+	}
+	return res;
 }
 
 // read map from char* fname
@@ -120,7 +155,6 @@ int map_error(char* fname, FILE* stream, char* line, t_map* map)
 int read_map(char* fname, t_map* map)
 {
 	FILE* stream;
-	// t_map* map;
 	char *line = NULL;
 	size_t len = 0;
 	int nread;
@@ -129,22 +163,41 @@ int read_map(char* fname, t_map* map)
 	{
 		stream = fopen(fname, "r");
 		if (!stream)
-			return map_error(NULL, NULL, NULL, map);
+			return reterror(NULL, NULL, NULL, map, "fopen()");
 	}
 	else
 		stream = stdin;
+
+/*
+	this would work if characters are space separated, or if `empty` chars wouldn't be allowed to be digits.
 
 	// read first line params
 	nread = fscanf(stream, "%d %c %c %c \n", &map->row, &map->empty, &map->obs, &map->full);
 	if (nread < 4)
 	{
-		return map_error(fname, stream, line, map);
+		return reterror(fname, stream, line, map, "invalid map");
 	}
+*/
+
+	// parse first line
+	nread = getline(&line, &len, stream);
+	if (nread < 5) // we need at least 4 chars + '\n'
+	{
+		return reterror(fname, stream, line, map, "invalid map");
+	}
+	int length = ft_strlen(line);  // example line: 9.ox\n
+	// line[length - 1] -> '\n'
+	map->full = line[length - 2]; // x
+	map->obs = line[length - 3]; // o
+	map->empty = line[length - 4]; // .
+	map->row = ftx_atoi(line, length - 4);
+	// printf("map->row: %d\n", map->row);
+
 	if (map->row <= 0 ||
 		map->empty == map->obs || map->obs == map->full || map->full == map->empty ||
 		!is_printable(map->empty) || !is_printable(map->obs) || !is_printable(map->full))
 	{
-		return map_error(fname, stream, line, map);
+		return reterror(fname, stream, line, map, "invalid map");
 	}
 
 	// read map lines
@@ -156,32 +209,32 @@ int read_map(char* fname, t_map* map)
 		nread = getline(&line, &len, stream);
 		if (nread <= 1)  // we need at least one 'empty'/'obs' + '\n'
 		{
-			return map_error(fname, stream, line, map);
+			return reterror(fname, stream, line, map, "invalid map");
 		}
 		if (r == 0) // first row
 		{
 			map->col = nread - 1; // without terminating '\n'
 			map->grid = (char **)calloc(map->row, sizeof(char *));
 			if (!map->grid)
-				return map_error(fname, stream, line, map);
+				return reterror(fname, stream, line, map, "invalid map");
 		}
 		else if (nread - 1 != map->col)  // rows must have the same size
 		{
-			return map_error(fname, stream, line, map);
+			return reterror(fname, stream, line, map, "invalid map");
 		}
 
 		// store line
 		map->grid[r] = calloc(map->col + 1, sizeof(char));  // +1 for terminating '\0' (easy print)
 		if (!map->grid[r])
 		{
-			return map_error(fname, stream, line, map);
+			return reterror(fname, stream, line, map, "invalid map");
 		}
 		for (int c = 0; c < map->col; c++)
 		{
 			map->grid[r][c] = line[c];
 			if (line[c] != map->empty && line[c] != map->obs)
 			{
-				return map_error(fname, stream, line, map);
+				return reterror(fname, stream, line, map, "invalid map");
 			}
 		}
 		free(line);
@@ -197,7 +250,7 @@ int read_map(char* fname, t_map* map)
 	}
 	else
 	{
-		return map_error(fname, stream, line, map);
+		return reterror(fname, stream, line, map, "invalid map");
 	}
 
 	return 1;
