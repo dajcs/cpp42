@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 10:38:42 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/02 11:06:13 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/02 12:25:21 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ class bigint
 		}
 
 		// copy constructor
-		bigint (const bigint &other)
+		bigint (const bigint &other) : str(other.str)
 		{
-			this->str = other.str;
+			// this->str = other.str;
 		}
 
 		// copy assignment operator
@@ -81,7 +81,7 @@ class bigint
 
 		bigint operator+(const bigint &other) const
 		{
-			bigint tmp = bigint(*this);
+			bigint tmp(*this);
 			return tmp += other;
 		}
 
@@ -94,9 +94,9 @@ class bigint
 		// post-increment
 		bigint operator++(int)
 		{
-			bigint tmp = bigint(*this); // copy current object
-			*this += bigint(1);			// incr current object
-			return tmp;					// return copy with the old value
+			bigint tmp(*this);	// copy current object
+			*this += bigint(1);	// incr current object
+			return tmp;			// return copy with the orig value
 		}
 
 
@@ -116,7 +116,7 @@ class bigint
 		// left-shift
 		bigint operator<<(const bigint &other) const
 		{
-			bigint tmp = bigint(*this);
+			bigint tmp(*this);
 			return tmp<<=(other);
 		}
 
@@ -142,7 +142,7 @@ class bigint
 		// right shift
 		bigint operator>>(const bigint &other) const
 		{
-			bigint tmp = bigint(*this);
+			bigint tmp(*this);
 			return tmp>>=(other);
 		}
 

@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 13:44:32 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/27 11:56:26 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/02 11:25:49 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ class searchable_array_bag: public array_bag, public searchable_bag
 	searchable_array_bag(const searchable_array_bag &other): array_bag(other) {}
 
 	// copy assignment operator
-	// the parent `array_bag` has already implemented `operator=()`, we're using it
-	// actually we have to using it because of the encapsulation rules:
+	// the parent `array_bag` has already implemented `operator=()`, we're running it
+	// actually we have to use parent constructor because of the encapsulation rules:
 	// if the base class changes copy rules, the code should work right away
 	searchable_array_bag &operator=(const searchable_array_bag &other)
 	{
