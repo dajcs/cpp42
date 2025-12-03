@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 09:55:09 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/03 09:37:01 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/03 12:45:01 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ $> echo 'dxss' | ./a.out 3 3 2 | cat -e
 
 typedef struct s_game
 {
-	int cols;
 	int rows;
+	int cols;
 	int iterations;
 	char** grid;
 	char** next_grid;
@@ -129,7 +129,8 @@ void parse_initial_state(t_game* game)
 	int c = 0;
 	int is_drawing = 0;
 
-	// ssize_t read(int fildes, void *buf, size_t nbyte);
+	// ssize_t read(int fd, void *buf, size_t nbyte);
+	// 			returns number of bytes read
 	// read 1 byte from STDIN until EOF
 	while (read(STDIN_FILENO, buf, 1) > 0)
 	{

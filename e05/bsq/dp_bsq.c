@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 16:39:13 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/03 11:04:14 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/03 12:21:42 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,17 +356,17 @@ void solve_map(t_map* map)
 
 void solve_dp(t_map *map)
 {
-	int **dp;
-	int size = 0; // bsq size
 
 	// 1. Allocate mem for the int grid
-	dp = (int**)calloc(map->rows, sizeof(int *));
+	int **dp = (int**)calloc(map->rows, sizeof(int *));
 	if (!dp)
 		errx(NULL, NULL, NULL, map, "(int**)calloc fail");
 	for (int i = 0; i < map->rows; i++)
 	{
 		dp[i] = (int*)calloc(map->cols, sizeof(int));
 	}
+
+	map->size = 0; // bsq size
 
 	// 2. Iterate through the map
 	for (int r = 0; r < map->rows; r++)
@@ -386,13 +386,12 @@ void solve_dp(t_map *map)
 				dp[r][c] = min_val(dp[r][c-1], dp[r-1][c], dp[r-1][c-1]) + 1;
 
 			// 3. check if we have a new bsq
-			if (dp[r][c] > size)
+			if (dp[r][c] > map->size)
 			{
-				size = dp[r][c];
-				map->size = size;
+				map->size = dp[r][c];
 				// put top-left corner in struct
-				map->r0 = r - size + 1;
-				map->c0 = c - size + 1;
+				map->r0 = r - map->size + 1;
+				map->c0 = c - map->size + 1;
 			}
 
 		}
