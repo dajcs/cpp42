@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 09:55:09 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/02 10:20:13 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/03 09:37:01 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ $> echo 'dxss' | ./a.out 3 3 2 | cat -e
 
 typedef struct s_game
 {
-	int width;
-	int height;
+	int cols;
+	int rows;
 	int iterations;
 	char** grid;
 	char** next_grid;
@@ -88,11 +88,11 @@ void ft_putstr(char* str)
 	}
 }
 
-void free_grid(char** grid, int height)
+void free_grid(char** grid, int rows)
 {
 	if (grid)
 	{
-		for (int i = 0; i < height; i++)
+		for (int i = 0; i < rows; i++)
 		{
 			if (grid[i])
 			{
@@ -100,20 +100,21 @@ void free_grid(char** grid, int height)
 				grid[i] = NULL;
 			}
 		}
+		free(grid);
+		grid = NULL;
 	}
-	grid = NULL;
 }
 
-char** calloc_grid(int width, int height)
+char** calloc_grid(int cols, int rows)
 {
 	char** grid;
 
-	grid = calloc(height, sizeof(char *));
+	grid = calloc(rows, sizeof(char *));
 	if (!grid)
 		return NULL;
-	for (int i = 0; i < height; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		grid[i] = calloc(width, sizeof(char));
+		grid[i] = calloc(cols, sizeof(char));
 		if (!grid[i])
 			return NULL;
 	}
@@ -137,9 +138,9 @@ void parse_initial_state(t_game* game)
 			r--;
 		else if (buf[0] == 'a' && c > 0)	// left
 			c--;
-		else if (buf[0] == 's' && r < game->height - 1) // down
+		else if (buf[0] == 's' && r < game->rows - 1) // down
 			r++;
-		else if (buf[0] == 'd' && c < game->width - 1)	// right
+		else if (buf[0] == 'd' && c < game->cols - 1)	// right
 			c++;
 		// lift / lower the pen
 		else if (buf[0] == 'x')
@@ -164,8 +165,8 @@ int get_neighbours(t_game* game, int r, int c)
 		{
 			nr = r + dr; // neighbour row
 			nc = c + dc; // neighbour col
-			if (nr >= 0 && nr < game->height &&	// row within limits
-				nc >= 0 && nc < game->width &&	// col within limits
+			if (nr >= 0 && nr < game->rows &&	// row within limits
+				nc >= 0 && nc < game->cols &&	// col within limits
 				!(r == nr && c == nc) &&		// skip own cell
 				game->grid[nr][nc])				// check if nbr is alive
 			{
@@ -187,9 +188,9 @@ void compute_next_gen(t_game* game)
 {
 	int nr_nbr;
 
-	for (int r = 0; r < game->height; r++)
+	for (int r = 0; r < game->rows; r++)
 	{
-		for (int c = 0; c < game->width; c++)
+		for (int c = 0; c < game->cols; c++)
 		{
 			nr_nbr = get_neighbours(game, r, c);
 			if (game->grid[r][c] == 1)
@@ -238,9 +239,9 @@ void run_simulation(t_game* game)
 
 void print_grid(t_game *game)
 {
-	for (int r = 0; r < game->height; r++)
+	for (int r = 0; r < game->rows; r++)
 	{
-		for (int c = 0; c < game->width; c++)
+		for (int c = 0; c < game->cols; c++)
 		{
 			if(game->grid[r][c])
 				putchar('0');
@@ -264,23 +265,23 @@ int main(int argc, char** argv)
 		ft_putstr("Use: ./life width height iterations\n");
 		return 1;
 	}
-	game.width = atoi(argv[1]);
-	game.height = atoi(argv[2]);
+	game.cols = atoi(argv[1]);
+	game.rows = atoi(argv[2]);
 	game.iterations = atoi(argv[3]);
 
-	if (game.width <= 0 || game.height <= 0 || game.iterations < 0)
+	if (game.cols <= 0 || game.rows <= 0 || game.iterations < 0)
 	{
 		ft_putstr("height and width should be > 0; iterations should be >= 0\n");
 		return 1;
 	}
 
-	game.grid = calloc_grid(game.width, game.height);
-	game.next_grid = calloc_grid(game.width, game.height);
+	game.grid = calloc_grid(game.cols, game.rows);
+	game.next_grid = calloc_grid(game.cols, game.rows);
 	if (!game.grid || !game.next_grid)
 	{
 		ft_putstr("calloc grids failed\n");
-		free_grid(game.grid, game.height);
-		free_grid(game.next_grid, game.height);
+		free_grid(game.grid, game.rows);
+		free_grid(game.next_grid, game.rows);
 		return 1;
 	}
 
@@ -291,6 +292,6 @@ int main(int argc, char** argv)
 	// print final grid
 	print_grid(&game);
 
-	free_grid(game.grid, game.height);
-	free_grid(game.next_grid, game.height);
+	free_grid(game.grid, game.rows);
+	free_grid(game.next_grid, game.rows);
 }

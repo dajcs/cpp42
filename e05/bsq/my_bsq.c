@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 16:39:13 by anemet            #+#    #+#             */
-/*   Updated: 2025/12/02 21:12:13 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/03 09:59:59 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ example:
 
 typedef struct s_map
 {
-	int row;
-	int col;
+	int rows;
+	int cols;
 	char empty;
 	char obs;
 	char full;
@@ -100,11 +100,11 @@ int ft_strlen(char* str)
 	return i;
 }
 
-void free_map_grid(t_map *map)
+void free_grid(t_map *map)
 {
 	if (map->grid)
 	{
-		for (int i = 0; i < map->row; i++)
+		for (int i = 0; i < map->rows; i++)
 		{
 			if (map->grid[i])
 			{
@@ -122,12 +122,13 @@ int errx(char* fname, FILE* stream, char* line, t_map* map, char* message)
 		fclose(stream);
 	if (line)
 		free(line);
-	free_map_grid(map);
+	free_grid(map);
 	printf("Error: %s\n", message);
 	return 0;
 }
 
-// parse str without the trailing 4 chars
+// parse str up to <stop>
+// skipping the trailing 3 chars + '\n'
 int ftx_atoi(char* str, int stop)
 {
 	int i = 0;
@@ -172,7 +173,7 @@ int read_map(char* fname, t_map* map)
 	this would work if characters are space separated, or if `empty` chars wouldn't be allowed to be digits.
 
 	// read first line params
-	nread = fscanf(stream, "%d %c %c %c \n", &map->row, &map->empty, &map->obs, &map->full);
+	nread = fscanf(stream, "%d %c %c %c \n", &map->rows, &map->empty, &map->obs, &map->full);
 	if (nread < 4)
 	{
 		return reterror(fname, stream, line, map, "invalid map");
@@ -190,10 +191,10 @@ int read_map(char* fname, t_map* map)
 	map->full = line[length - 2]; // x
 	map->obs = line[length - 3]; // o
 	map->empty = line[length - 4]; // .
-	map->row = ftx_atoi(line, length - 4);
-	// printf("map->row: %d\n", map->row);
+	map->rows = ftx_atoi(line, length - 4);
+	// printf("map->rows: %d\n", map->rows);
 
-	if (map->row <= 0 ||
+	if (map->rows <= 0 ||
 		map->empty == map->obs || map->obs == map->full || map->full == map->empty ||
 		!is_printable(map->empty) || !is_printable(map->obs) || !is_printable(map->full))
 	{
@@ -201,7 +202,7 @@ int read_map(char* fname, t_map* map)
 	}
 
 	// read map lines
-	for (int r = 0; r < map->row; r++)
+	for (int r = 0; r < map->rows; r++)
 	{
 		line = NULL;  // getline will provide a buffer, but we have to free it
 		len = 0;
@@ -211,25 +212,25 @@ int read_map(char* fname, t_map* map)
 		{
 			return errx(fname, stream, line, map, "invalid map");
 		}
-		if (r == 0) // first row
+		if (r == 0) // first rows
 		{
-			map->col = nread - 1; // without terminating '\n'
-			map->grid = (char **)calloc(map->row, sizeof(char *));
+			map->cols = nread - 1; // without terminating '\n'
+			map->grid = (char **)calloc(map->rows, sizeof(char *));
 			if (!map->grid)
 				return errx(fname, stream, line, map, "invalid map");
 		}
-		else if (nread - 1 != map->col)  // rows must have the same size
+		else if (nread - 1 != map->cols)  // rows must have the same size
 		{
 			return errx(fname, stream, line, map, "invalid map");
 		}
 
 		// store line
-		map->grid[r] = calloc(map->col + 1, sizeof(char));  // +1 for terminating '\0' (easy print)
+		map->grid[r] = calloc(map->cols + 1, sizeof(char));  // +1 for terminating '\0' (easy print)
 		if (!map->grid[r])
 		{
 			return errx(fname, stream, line, map, "invalid map");
 		}
-		for (int c = 0; c < map->col; c++)
+		for (int c = 0; c < map->cols; c++)
 		{
 			map->grid[r][c] = line[c];
 			if (line[c] != map->empty && line[c] != map->obs)
@@ -270,7 +271,7 @@ void print_map(t_map* map)
 		}
 	}
 
-	for (int r = 0; r < map->row; r++)
+	for (int r = 0; r < map->rows; r++)
 	{
 		fprintf(stdout, "%s\n", map->grid[r]);
 	}
@@ -280,17 +281,17 @@ void print_map(t_map* map)
 int expand_size(int r, int c, int size, t_map* map)
 {
 	// check boudaries
-	if (r + size >= map->row || c + size >= map->col)
+	if (r + size >= map->rows || c + size >= map->cols)
 		return 0;
 	// check lower right corner
 	if (map->grid[r + size][c + size] == map->obs)
 		return 0;
 	for (int i = 0; i < size; i++)
 	{
-		// check new row
+		// check cells in the new row
 		if (map->grid[r + size][c + i] == map->obs)
 			return 0;
-		// check new column
+		// check cells in the new column
 		if (map->grid[r + i][c + size] == map->obs)
 			return 0;
 	}
@@ -301,9 +302,9 @@ void solve_map(t_map* map)
 {
 	int size = 0;
 
-	for (int r = 0; r < map->row; r++)
+	for (int r = 0; r < map->rows; r++)
 	{
-		for (int c = 0; c < map->col; c++)
+		for (int c = 0; c < map->cols; c++)
 		{
 			if (map->grid[r][c] == map->empty)
 			{
@@ -324,35 +325,20 @@ void solve_map(t_map* map)
 	return;
 }
 
-void process_map(t_map* map)
-{
-	solve_map(map);
-	print_map(map);
-	free_map_grid(map);
-}
-
 
 
 int main(int argc, char* argv[])
 {
 	t_map map = {0};
+	char* fname = NULL;
 
-	if (argc == 1)
-	{
-		if (read_map(NULL, &map))
-			process_map(&map);
-		else
-			return 1;
-	}
-	else
-	{
-		for (int i = 1; i < argc; i++)
-		{
-			map = (t_map){0}; // reset before each file
-			if (read_map(argv[i], &map))
-				process_map(&map);
-			fputs("\n", stdout);
-		}
-	}
+	if (argc > 1)
+		fname = argv[1];
+
+	read_map(fname, &map);
+	solve_map(&map);
+	print_map(&map);
+	free_grid(&map);
+
 	return 0;
 }

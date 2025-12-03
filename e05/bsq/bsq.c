@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:17:14 by anemet            #+#    #+#             */
-/*   Updated: 2025/11/22 16:44:20 by anemet           ###   ########.fr       */
+/*   Updated: 2025/12/03 09:48:24 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int is_printable(char c)
 }
 
 // free map->grid
-void free_map_grid(t_map *map)
+void free_grid(t_map *map)
 {
 	int i;
 
@@ -340,7 +340,7 @@ void process_input(t_map *map, char *file)
 		fprintf(stderr, "map error\n");
 	}
 	// free map->grid
-	free_map_grid(map);
+	free_grid(map);
 }
 
 
